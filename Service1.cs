@@ -72,7 +72,7 @@ namespace MyDBService
         public int UpdateAccountPassword(string username, string passwordhash, string passwordsalt)
         {
             Account act = new Account();
-            return act.UpdateAccountDetails(username, passwordhash,passwordsalt);
+            return act.UpdatePassword(username, passwordhash,passwordsalt);
         }
 
     }
