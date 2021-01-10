@@ -203,6 +203,24 @@ namespace MyDBService.Entity
 
             return result;
         }
+        public int UpdateUserType(string username, string usertype)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "UPDATE Account SET usertype = @paraUserType where username =  @paraUsername";
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            sqlCmd.Parameters.AddWithValue("@paraUsername", username);
+            sqlCmd.Parameters.AddWithValue("@paraUserType", usertype);
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+
+            return result;
+        }
     }
 }
    
