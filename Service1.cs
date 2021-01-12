@@ -74,6 +74,11 @@ namespace MyDBService
             Account act = new Account();
             return act.UpdatePassword(username, passwordhash,passwordsalt);
         }
+        public int UpdateUserType(string username, string usertype)
+        {
+            Account act = new Account();
+            return act.UpdateUserType(username,usertype);
+        }
 
     }
 }

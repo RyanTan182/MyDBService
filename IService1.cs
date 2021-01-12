@@ -45,6 +45,9 @@ namespace MyDBService
 
         [OperationContract]
         int UpdateAccountPassword(string username, string passwordhash, string passwordsalt);
+
+        [OperationContract]
+        int UpdateUserType(string username, string usertype);
     }
 
     // Use a data contract as illustrated in the sample below to add composite types to service operations.
