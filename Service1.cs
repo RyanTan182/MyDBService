@@ -75,5 +75,20 @@ namespace MyDBService
             return act.UpdatePassword(username, passwordhash,passwordsalt);
         }
 
+        //Uwais Alqarni
+
+        public List<Post> GetAllPost()
+        {
+            Post post = new Post();
+            return post.SelectAll();
+        }
+
+        public int CreatePost(string title, Byte[] image, string type, string location, string description, string username)
+        {
+            Post post = new Post(title, image, type, location, description, 0, false, username);
+            return post.Insert();
+        }
+
+
     }
 }
