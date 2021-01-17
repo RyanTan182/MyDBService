@@ -46,6 +46,9 @@ namespace MyDBService
         [OperationContract]
         int UpdateAccountPassword(string username, string passwordhash, string passwordsalt);
 
+        [OperationContract]
+        int UpdateUserType(string username, string usertype);
+
         //Uwais Alqarni
 
         [OperationContract]
