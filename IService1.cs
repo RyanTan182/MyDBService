@@ -55,7 +55,7 @@ namespace MyDBService
         List<Post> GetAllPost();
 
         [OperationContract]
-        int CreatePost(string title, Byte[] image, string type, string location, string description, string username);
+        int CreatePost(string title, string image, string type, string location, string description, string username);
 
     }
 

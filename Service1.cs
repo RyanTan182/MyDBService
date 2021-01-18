@@ -88,7 +88,7 @@ namespace MyDBService
             return post.SelectAll();
         }
 
-        public int CreatePost(string title, Byte[] image, string type, string location, string description, string username)
+        public int CreatePost(string title, string image, string type, string location, string description, string username)
         {
             Post post = new Post(title, image, type, location, description, 0, false, username);
             return post.Insert();
