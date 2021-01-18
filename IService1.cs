@@ -54,6 +54,15 @@ namespace MyDBService
         [OperationContract]
         int UpdateUserType(string username, string usertype);
 
+        //Uwais Alqarni
+
+        [OperationContract]
+        List<Post> GetAllPost();
+
+        [OperationContract]
+        int CreatePost(string title, Byte[] image, string type, string location, string description, string username);
+
+
         [OperationContract]
         int CreateActivity(string duration, double price, string details, string tag, string activityname);
     }
