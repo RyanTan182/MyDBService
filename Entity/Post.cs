@@ -12,7 +12,7 @@ namespace MyDBService.Entity
     public class Post
     {
         public string Title { get; set; }
-        public Byte[] Image { get; set; }
+        public string Image { get; set; }
         public string Type { get; set; }
         public string Location { get; set; }
         public string Description { get; set; }
@@ -25,7 +25,7 @@ namespace MyDBService.Entity
 
         }
 
-        public Post(string title, Byte[] image, string type, string location, string description, int report, Boolean bookmark, string username)
+        public Post(string title, string image, string type, string location, string description, int report, Boolean bookmark, string username)
         {
             Title = title;
             Image = image;
@@ -81,13 +81,13 @@ namespace MyDBService.Entity
             {
                 DataRow row = ds.Tables[0].Rows[i];
                 string title = row["Title"].ToString();
-                Byte[] image = (Byte[])row["Image"];
+                string image = row["Image"].ToString();
                 string type = row["Type"].ToString();
                 string location = row["Location"].ToString();
                 string description = row["Description"].ToString();
                 string str_report = row["Report"].ToString();
                 int report = Convert.ToInt32(str_report);
-                Boolean bookmark = Convert.ToBoolean(row["Bookmark"].ToString());
+                Boolean bookmark = Convert.ToBoolean(row["Bookmark"]);
                 string username = row["Username"].ToString();
 
                 Post obj = new Post(title, image, type, location, description, report, bookmark, username);

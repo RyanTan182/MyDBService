@@ -38,6 +38,16 @@ namespace MyDBService
             Promotion emp = new Promotion(name, overview, promotionimage, expirydate, minimumspend,code);
             return emp.Insert();
         }
+        public int CreateActivity(string duration, double price, string details, string tag, string activityname)
+        {
+            Activity emp = new Activity(duration, price, details, tag, activityname);
+            return emp.Insert();
+        }
+        public int CreatePayment(double cardnumber,int cvv,string date)
+        {
+            Payment emp = new Payment(cardnumber, cvv, date);
+            return emp.Insert();
+        }
         public List<Account> GetAllAccount ()
         {
             Account act=new Account();
@@ -47,6 +57,11 @@ namespace MyDBService
         {
             Promotion pro = new Promotion();
             return pro.SelectAll();
+        }
+        public List<Activity> GetAllActivity()
+        {
+            Activity act = new Activity();
+            return act.SelectAll();
         }
         public Account GetAccountByUsername(string username)
         {
@@ -94,7 +109,7 @@ namespace MyDBService
             return post.SelectAll();
         }
 
-        public int CreatePost(string title, Byte[] image, string type, string location, string description, string username)
+        public int CreatePost(string title, string image, string type, string location, string description, string username)
         {
             Post post = new Post(title, image, type, location, description, 0, false, username);
             return post.Insert();
