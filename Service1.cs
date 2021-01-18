@@ -33,9 +33,9 @@ namespace MyDBService
             Account emp = new Account(username, email, contactno, passwordhash, passwordsalt, usertype);
             return emp.Insert();
         }
-        public int CreatePromotion(string name, string overview, DateTime expirydate, double minimumspend)
+        public int CreatePromotion(string name, string overview, Byte[] promotionimage, DateTime expirydate, double minimumspend,string code)
         {
-            Promotion emp = new Promotion(name, overview, expirydate, minimumspend);
+            Promotion emp = new Promotion(name, overview, promotionimage, expirydate, minimumspend,code);
             return emp.Insert();
         }
         public List<Account> GetAllAccount ()
@@ -79,6 +79,12 @@ namespace MyDBService
             Account act = new Account();
             return act.UpdateUserType(username,usertype);
         }
+        public int UpdateCode(string name, string code)
+        {
+            Promotion pro = new Promotion();
+            return pro.UpdateCode(name, code);
+        }
+
 
         //Uwais Alqarni
 

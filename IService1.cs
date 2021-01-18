@@ -22,7 +22,7 @@ namespace MyDBService
         int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype);
 
         [OperationContract]
-        int CreatePromotion(string name,string overview, DateTime expirydate, double minimumspend);
+        int CreatePromotion(string name,string overview, Byte[] promotionimage, DateTime expirydate, double minimumspend, string code);
 
         [OperationContract]
         List<Account> GetAllAccount();
@@ -48,6 +48,9 @@ namespace MyDBService
 
         [OperationContract]
         int UpdateUserType(string username, string usertype);
+
+        [OperationContract]
+        int UpdateCode(string name, string code);
 
         //Uwais Alqarni
 
