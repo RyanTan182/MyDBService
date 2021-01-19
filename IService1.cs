@@ -54,6 +54,17 @@ namespace MyDBService
         [OperationContract]
         int UpdateUserType(string username, string usertype);
 
+        [OperationContract]
+        int UpdateActivity(int id, string duration, double price, string details, string tag, string activityname,string image);
+
+        [OperationContract]
+        int DeleteActivity(int id);
+
+        [OperationContract]
+        Activity SelectById(int id);
+
+
+
         //Uwais Alqarni
 
         [OperationContract]
@@ -64,7 +75,7 @@ namespace MyDBService
 
 
         [OperationContract]
-        int CreateActivity(string duration, double price, string details, string tag, string activityname);
+        int CreateActivity(string duration, double price, string details, string tag, string activityname,string image);
     }
 
     // Use a data contract as illustrated in the sample below to add composite types to service operations.
