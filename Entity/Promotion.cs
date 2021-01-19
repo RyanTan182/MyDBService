@@ -14,14 +14,19 @@ namespace MyDBService.Entity
 
         public string Name { get; set; }    
         public string Overview { get; set; }
+        public string PromotionImage { get; set; }
         public DateTime ExpiryDate { get; set; }
         public double MinimumSpend { get; set; }
-        public Promotion(string name,string overview, DateTime expirydate,double minimumspend)
+        public string Code { get; set; }
+
+        public Promotion(string name,string overview, string promotionimage, DateTime expirydate,double minimumspend,string code)
         {
             Name = name;
             Overview = overview;
+            PromotionImage = promotionimage;
             ExpiryDate = expirydate;
             MinimumSpend = minimumspend;
+            Code = code;
         }
 
         public Promotion() 
@@ -36,15 +41,17 @@ namespace MyDBService.Entity
             SqlConnection myConn = new SqlConnection(DBConnect);
 
             // Step 2 - Create a SqlCommand object to add record with INSERT statement
-            string sqlStmt = "INSERT INTO Promotion (Name, Overview, ExpiryDate , MinimumSpend) " +
-                "VALUES (@paraName, @paraOverview, @paraExpiryDate, @paraMinimumSpend)";
+            string sqlStmt = "INSERT INTO Promotion (Name, Overview, PromotionImage, ExpiryDate , MinimumSpend, Code) " +
+                "VALUES (@paraName, @paraOverview, @paraPromotionImage, @paraExpiryDate, @paraMinimumSpend, @paraCode)";
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             // Step 3 : Add each parameterised variable with value
             sqlCmd.Parameters.AddWithValue("@paraName", Name);
             sqlCmd.Parameters.AddWithValue("@paraOverview", Overview);
+            sqlCmd.Parameters.AddWithValue("@paraPromotionImage", PromotionImage);
             sqlCmd.Parameters.AddWithValue("@paraExpiryDate", ExpiryDate);
             sqlCmd.Parameters.AddWithValue("@paraMinimumSpend", MinimumSpend);
+            sqlCmd.Parameters.AddWithValue("@paraCode", Code);
 
             // Step 4 Open connection the execute NonQuery of sql command   
             myConn.Open();
@@ -80,9 +87,11 @@ namespace MyDBService.Entity
             {
                 DataRow row = ds.Tables[0].Rows[0];  // Sql command returns only one record
                 string overview = row["Overview"].ToString();
+                string promotionimage = row["PromotionImage"].ToString();
                 DateTime expirydate = Convert.ToDateTime(row["ExpiryDate"].ToString());
                 double minimumspend = Double.Parse(row["MinimumSpend"].ToString());
-                pro = new Promotion(name, overview, expirydate, minimumspend);
+                string code = row["Code"].ToString();
+                pro = new Promotion(name, overview,promotionimage, expirydate, minimumspend,code);
             }
             return pro;
         }
@@ -112,12 +121,32 @@ namespace MyDBService.Entity
                 int id = int.Parse(row["PromotionID"].ToString());
                 string name = row["Name"].ToString();
                 string overview = row["Overview"].ToString();
+                string promotionimage = row["PromotionImage"].ToString();
                 DateTime expirydate = Convert.ToDateTime(row["ExpiryDate"].ToString());
                 double minimumspend = Double.Parse(row["MinimumSpend"].ToString());
-                Promotion pro = new Promotion(name, overview, expirydate, minimumspend);
+                string code = row["Code"].ToString();
+                Promotion pro = new Promotion(name, overview,promotionimage, expirydate, minimumspend,code);
                 proList.Add(pro);
             }
             return proList;
+        }
+        public int UpdateCode(string name, string code)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "UPDATE Promotion SET code = @paraCode where name =  @paraName";
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            sqlCmd.Parameters.AddWithValue("@paraName", name);
+            sqlCmd.Parameters.AddWithValue("@paraCode", code);
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+
+            return result;
         }
     }
 }

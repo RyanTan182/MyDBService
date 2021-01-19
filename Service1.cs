@@ -33,9 +33,9 @@ namespace MyDBService
             Account emp = new Account(username, email, contactno, passwordhash, passwordsalt, usertype);
             return emp.Insert();
         }
-        public int CreatePromotion(string name, string overview, DateTime expirydate, double minimumspend)
+        public int CreatePromotion(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend,string code)
         {
-            Promotion emp = new Promotion(name, overview, expirydate, minimumspend);
+            Promotion emp = new Promotion(name, overview, promotionimage, expirydate, minimumspend,code);
             return emp.Insert();
         }
         public int CreateActivity(string duration, double price, string details, string tag, string activityname,string image)
@@ -109,6 +109,12 @@ namespace MyDBService
             Activity act = new Activity();
             return act.DeleteActivity(id);
         }
+        public int UpdateCode(string name, string code)
+        {
+            Promotion pro = new Promotion();
+            return pro.UpdateCode(name, code);
+        }
+
 
         //Uwais Alqarni
 
@@ -118,7 +124,7 @@ namespace MyDBService
             return post.SelectAll();
         }
 
-        public int CreatePost(string title, Byte[] image, string type, string location, string description, string username)
+        public int CreatePost(string title, string image, string type, string location, string description, string username)
         {
             Post post = new Post(title, image, type, location, description, 0, false, username);
             return post.Insert();

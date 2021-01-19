@@ -12,7 +12,7 @@ namespace MyDBService.Entity
     public class Post
     {
         public string Title { get; set; }
-        public Byte[] Image { get; set; }
+        public string Image { get; set; }
         public string Type { get; set; }
         public string Location { get; set; }
         public string Description { get; set; }
@@ -25,7 +25,7 @@ namespace MyDBService.Entity
 
         }
 
-        public Post(string title, Byte[] image, string type, string location, string description, int report, Boolean bookmark, string username)
+        public Post(string title, string image, string type, string location, string description, int report, Boolean bookmark, string username)
         {
             Title = title;
             Image = image;
@@ -81,19 +81,43 @@ namespace MyDBService.Entity
             {
                 DataRow row = ds.Tables[0].Rows[i];
                 string title = row["Title"].ToString();
-                Byte[] image = (Byte[])row["Image"];
+                string image = row["Image"].ToString();
                 string type = row["Type"].ToString();
                 string location = row["Location"].ToString();
                 string description = row["Description"].ToString();
                 string str_report = row["Report"].ToString();
                 int report = Convert.ToInt32(str_report);
-                Boolean bookmark = Convert.ToBoolean(row["Bookmark"].ToString());
+                Boolean bookmark = Convert.ToBoolean(row["Bookmark"]);
                 string username = row["Username"].ToString();
 
                 Post obj = new Post(title, image, type, location, description, report, bookmark, username);
                 postList.Add(obj);
             }
             return postList;
+        }
+
+        public int UpdatePost(string title, string image, string type, string location, string description, Boolean bookmark)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "UPDATE Post SET title = @paraTitle, image= @paraImage, type= @paraType, location= @paraLocation, description= @paraDescription, bookmark= @paraBookmark where username =  @paraUsername";
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            sqlCmd.Parameters.AddWithValue("@paraTitle", title);
+            sqlCmd.Parameters.AddWithValue("@paraImage", image);
+            sqlCmd.Parameters.AddWithValue("@paraType", type);
+            sqlCmd.Parameters.AddWithValue("@paraLocation", location);
+            sqlCmd.Parameters.AddWithValue("@paraDescription", description);
+            sqlCmd.Parameters.AddWithValue("@paraBookmark", bookmark);
+
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+
+            return result;
         }
     }
 }

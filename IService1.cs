@@ -22,7 +22,7 @@ namespace MyDBService
         int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype);
 
         [OperationContract]
-        int CreatePromotion(string name,string overview, DateTime expirydate, double minimumspend);
+        int CreatePromotion(string name,string overview, string promotionimage, DateTime expirydate, double minimumspend, string code);
 
         [OperationContract]
         int CreatePayment(double cardnumber, int cvv, string date);
@@ -65,13 +65,16 @@ namespace MyDBService
 
 
 
+        [OperationContract]
+        int UpdateCode(string name, string code);
+
         //Uwais Alqarni
 
         [OperationContract]
         List<Post> GetAllPost();
 
         [OperationContract]
-        int CreatePost(string title, Byte[] image, string type, string location, string description, string username);
+        int CreatePost(string title, string image, string type, string location, string description, string username);
 
 
         [OperationContract]
