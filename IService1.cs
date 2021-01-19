@@ -22,7 +22,7 @@ namespace MyDBService
         int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype);
 
         [OperationContract]
-        int CreatePromotion(string name,string overview, Byte[] promotionimage, DateTime expirydate, double minimumspend, string code);
+        int CreatePromotion(string name,string overview, string promotionimage, DateTime expirydate, double minimumspend, string code);
 
         [OperationContract]
         int CreatePayment(double cardnumber, int cvv, string date);

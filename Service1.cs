@@ -33,7 +33,7 @@ namespace MyDBService
             Account emp = new Account(username, email, contactno, passwordhash, passwordsalt, usertype);
             return emp.Insert();
         }
-        public int CreatePromotion(string name, string overview, Byte[] promotionimage, DateTime expirydate, double minimumspend,string code)
+        public int CreatePromotion(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend,string code)
         {
             Promotion emp = new Promotion(name, overview, promotionimage, expirydate, minimumspend,code);
             return emp.Insert();
