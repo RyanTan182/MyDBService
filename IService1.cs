@@ -22,7 +22,7 @@ namespace MyDBService
         int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype);
 
         [OperationContract]
-        int CreatePromotion(string name,string overview, Byte[] promotionimage, DateTime expirydate, double minimumspend, string code);
+        int CreatePromotion(string name,string overview, string promotionimage, DateTime expirydate, double minimumspend, string code);
 
         [OperationContract]
         int CreatePayment(double cardnumber, int cvv, string date);
@@ -46,6 +46,9 @@ namespace MyDBService
         // TODO: Add your service operations here
 
         [OperationContract]
+        Activity SelectById(int id);
+
+        [OperationContract]
         int UpdateAccountDetails(string username, string email, string contactno);
 
         [OperationContract]
@@ -67,7 +70,14 @@ namespace MyDBService
 
 
         [OperationContract]
-        int CreateActivity(string duration, double price, string details, string tag, string activityname);
+        int CreateActivity(string duration, double price, string details, string tag, string activityname,string image);
+
+        [OperationContract]
+        int UpdateActivity(int id,string duration, double price, string details, string tag, string activityname,string image);
+
+        [OperationContract]
+        int DeleteActivity(int id);
+
 
         //Mengxi
     }
