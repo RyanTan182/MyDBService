@@ -52,7 +52,40 @@ namespace MyDBService.Entity
 
             return result;
         }
-        public 
+        public int DeletePlan(int id)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "Delete From Plan where Planid = @paraid";
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+            sqlCmd.Parameters.AddWithValue("@paraid", id);
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+            return result;
+
+        }
+        public int UpdatePlanname(string planid, string planname)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "UPDATE Plan SET planname = @paraPlanname where planid =  @paraPlanid";
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            sqlCmd.Parameters.AddWithValue("@paraPlanid", planid);
+            sqlCmd.Parameters.AddWithValue("@paraPlanname", planname);
+
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+
+            return result;
+        }
     }
     
     

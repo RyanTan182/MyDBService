@@ -14,12 +14,12 @@ namespace MyDBService.Entity
 
         public string Name { get; set; }    
         public string Overview { get; set; }
-        public Byte[] PromotionImage { get; set; }
+        public string PromotionImage { get; set; }
         public DateTime ExpiryDate { get; set; }
         public double MinimumSpend { get; set; }
         public string Code { get; set; }
 
-        public Promotion(string name,string overview, Byte[] promotionimage, DateTime expirydate,double minimumspend,string code)
+        public Promotion(string name,string overview, string promotionimage, DateTime expirydate,double minimumspend,string code)
         {
             Name = name;
             Overview = overview;
@@ -87,7 +87,7 @@ namespace MyDBService.Entity
             {
                 DataRow row = ds.Tables[0].Rows[0];  // Sql command returns only one record
                 string overview = row["Overview"].ToString();
-                Byte[] promotionimage = (Byte[])row["PromotionImage"];
+                string promotionimage = row["PromotionImage"].ToString();
                 DateTime expirydate = Convert.ToDateTime(row["ExpiryDate"].ToString());
                 double minimumspend = Double.Parse(row["MinimumSpend"].ToString());
                 string code = row["Code"].ToString();
@@ -121,7 +121,7 @@ namespace MyDBService.Entity
                 int id = int.Parse(row["PromotionID"].ToString());
                 string name = row["Name"].ToString();
                 string overview = row["Overview"].ToString();
-                Byte[] promotionimage = (Byte[])row["PromotionImage"];
+                string promotionimage = row["PromotionImage"].ToString();
                 DateTime expirydate = Convert.ToDateTime(row["ExpiryDate"].ToString());
                 double minimumspend = Double.Parse(row["MinimumSpend"].ToString());
                 string code = row["Code"].ToString();

@@ -35,7 +35,7 @@ namespace MyDBService.Entity
             SqlConnection myConn = new SqlConnection(DBConnect);
 
             // Step 2 - Create a SqlCommand object to add record with INSERT statement
-            string sqlStmt = "INSERT INTO Plan (Planid, ActivityName, Date, Booked, Qty, Unitprice, Totalprice) " +
+            string sqlStmt = "INSERT INTO PlanActivity (Planid, ActivityName, Date, Booked, Qty, Unitprice, Totalprice) " +
                 "VALUES (@paraPlanid, @paraActivityName, @paraDate, @paraBooked, @paraQty, @paraUnitprice, @paraTotalprice)";
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
 
@@ -58,8 +58,39 @@ namespace MyDBService.Entity
 
             return result;
         }
+        public int UpdatePlan(string planid, string date)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
 
+            string sqlStmt = "UPDATE Plan SET date = @paraDate where planid =  @paraPlanid";
 
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
 
+            sqlCmd.Parameters.AddWithValue("@paraPlanid", planid);
+            sqlCmd.Parameters.AddWithValue("@paraPlanname", date);
+
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+
+            return result;
+        }
+        public int DeletePlanActivity(int id)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "Delete From Plan where Planid = @paraid";
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+            sqlCmd.Parameters.AddWithValue("@paraid", id);
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+            return result;
+
+        }
     }
 }

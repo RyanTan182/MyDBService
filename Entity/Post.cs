@@ -95,5 +95,29 @@ namespace MyDBService.Entity
             }
             return postList;
         }
+
+        public int UpdatePost(string title, string image, string type, string location, string description, Boolean bookmark)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "UPDATE Post SET title = @paraTitle, image= @paraImage, type= @paraType, location= @paraLocation, description= @paraDescription, bookmark= @paraBookmark where username =  @paraUsername";
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            sqlCmd.Parameters.AddWithValue("@paraTitle", title);
+            sqlCmd.Parameters.AddWithValue("@paraImage", image);
+            sqlCmd.Parameters.AddWithValue("@paraType", type);
+            sqlCmd.Parameters.AddWithValue("@paraLocation", location);
+            sqlCmd.Parameters.AddWithValue("@paraDescription", description);
+            sqlCmd.Parameters.AddWithValue("@paraBookmark", bookmark);
+
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+
+            return result;
+        }
     }
 }
