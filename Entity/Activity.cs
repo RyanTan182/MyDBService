@@ -162,7 +162,7 @@ namespace MyDBService.Entity
 
             return result;
         }
-        public int DeleteActivity(int id)
+            public int DeleteActivity(int id)
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);

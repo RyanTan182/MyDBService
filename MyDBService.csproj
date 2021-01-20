@@ -49,6 +49,8 @@
     <Compile Include="Entity\Account.cs" />
     <Compile Include="Entity\Activity.cs" />
     <Compile Include="Entity\Payment.cs" />
+    <Compile Include="Entity\Plan.cs" />
+    <Compile Include="Entity\PlanActivity.cs" />
     <Compile Include="Entity\Post.cs" />
     <Compile Include="Entity\Promotion.cs" />
     <Compile Include="IService1.cs" />
