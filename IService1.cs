@@ -39,6 +39,9 @@ namespace MyDBService
         Account GetAccountByUsername(string username);
 
         [OperationContract]
+        Account GetAccountByEmail(string email);
+
+        [OperationContract]
         Account GetAccountDetail(string username);
 
         [OperationContract]
@@ -53,6 +56,9 @@ namespace MyDBService
 
         [OperationContract]
         int UpdateAccountPassword(string username, string passwordhash, string passwordsalt);
+
+        [OperationContract]
+        int UpdateAccountPasswordByEmail(string email, string passwordhash, string passwordsalt);
 
         [OperationContract]
         int UpdateUserType(string username, string usertype);

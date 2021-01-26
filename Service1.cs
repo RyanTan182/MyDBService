@@ -68,6 +68,12 @@ namespace MyDBService
             Account act = new Account();
             return act.SelectByUsername(username);
         }
+
+        public Account GetAccountByEmail(string email)
+        {
+            Account act = new Account();
+            return act.SelectByEmail(email);
+        }
         public Account GetAccountDetail(string username)
         {
             Account act = new Account();
@@ -88,6 +94,12 @@ namespace MyDBService
         {
             Account act = new Account();
             return act.UpdatePassword(username, passwordhash,passwordsalt);
+        }
+
+        public int UpdateAccountPasswordByEmail(string email, string passwordhash, string passwordsalt)
+        {
+            Account act = new Account();
+            return act.UpdatePasswordByEmail(email, passwordhash, passwordsalt);
         }
         public int UpdateUserType(string username, string usertype)
         {
