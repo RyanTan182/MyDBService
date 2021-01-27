@@ -65,6 +65,16 @@ namespace MyDBService
         [OperationContract]
         int CreatePost(string title, string image, string type, string location, string description, string username);
 
+        [OperationContract]
+        int UpdatePost(int PostID, string title, string image, string type, string location, string description, Boolean bookmark);
+
+        [OperationContract]
+        Post GetAPost(int postID);
+
+        [OperationContract]
+        Post GetPostByUsername(string username);
+
+        //Yongsheng
 
         [OperationContract]
         int CreateActivity(string duration, double price, string details, string tag, string activityname);

@@ -115,6 +115,23 @@ namespace MyDBService
             return post.Insert();
         }
 
+        public int UpdatePost(int postID, string title, string image, string type, string location, string description, Boolean bookmark)
+        {
+            Post post = new Post();
+            return post.UpdateAPost(postID, title, image, type, location, description, bookmark);
+        }
+
+        public Post GetAPost(int postID)
+        {
+            Post post = new Post();
+            return post.GetAPost(postID);
+        }
+
+        public Post GetPostByUsername(string username)
+        {
+            Post post = new Post();
+            return post.GetPostByUsername(username);
+        }
 
     }
 }

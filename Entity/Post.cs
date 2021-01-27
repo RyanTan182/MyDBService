@@ -11,6 +11,7 @@ namespace MyDBService.Entity
 {
     public class Post
     {
+        public int PostID { get; set; }
         public string Title { get; set; }
         public string Image { get; set; }
         public string Type { get; set; }
@@ -91,20 +92,22 @@ namespace MyDBService.Entity
                 string username = row["Username"].ToString();
 
                 Post obj = new Post(title, image, type, location, description, report, bookmark, username);
+                obj.PostID = Convert.ToInt32(row["PostID"]);
                 postList.Add(obj);
             }
             return postList;
         }
 
-        public int UpdatePost(string title, string image, string type, string location, string description, Boolean bookmark)
+        public int UpdateAPost(int postID, string title, string image, string type, string location, string description, Boolean bookmark)
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
 
-            string sqlStmt = "UPDATE Post SET title = @paraTitle, image= @paraImage, type= @paraType, location= @paraLocation, description= @paraDescription, bookmark= @paraBookmark where username =  @paraUsername";
+            string sqlStmt = "UPDATE Post SET title = @paraTitle, image = @paraImage, type = @paraType, location = @paraLocation, description = @paraDescription, bookmark = @paraBookmark where postID =  @paraPostID";
 
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
 
+            sqlCmd.Parameters.AddWithValue("@paraPostID", postID);
             sqlCmd.Parameters.AddWithValue("@paraTitle", title);
             sqlCmd.Parameters.AddWithValue("@paraImage", image);
             sqlCmd.Parameters.AddWithValue("@paraType", type);
@@ -112,12 +115,76 @@ namespace MyDBService.Entity
             sqlCmd.Parameters.AddWithValue("@paraDescription", description);
             sqlCmd.Parameters.AddWithValue("@paraBookmark", bookmark);
 
+
             myConn.Open();
             int result = sqlCmd.ExecuteNonQuery();
 
             myConn.Close();
 
             return result;
+        }
+
+        public Post GetAPost(int id)
+        {           
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "Select * from Post where postID=@paraPostID";
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+            da.SelectCommand.Parameters.AddWithValue("@paraPostID", id);
+
+            DataSet ds = new DataSet();
+
+            da.Fill(ds);
+
+            Post post = null;
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            if (rec_cnt == 1)
+            {
+                DataRow row = ds.Tables[0].Rows[0];
+                string title = row["Title"].ToString();
+                string image = row["Image"].ToString();
+                string type = row["Type"].ToString();
+                string location = row["Location"].ToString();
+                string description = row["Description"].ToString();
+                string str_report = row["Report"].ToString();
+                int report = Convert.ToInt32(str_report);
+                Boolean bookmark = Convert.ToBoolean(row["Bookmark"]);
+                string username = row["Username"].ToString();
+                post = new Post(title, image, type, location, description, report, bookmark, username);
+            }
+            return post;
+        }
+
+        public Post GetPostByUsername(string username)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "Select * from Post where username=@paraUsername";
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+            da.SelectCommand.Parameters.AddWithValue("@paraUsername", username);
+
+            DataSet ds = new DataSet();
+
+            da.Fill(ds);
+
+            Post post = null;
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            if (rec_cnt == 1)
+            {
+                DataRow row = ds.Tables[0].Rows[0];
+                string title = row["Title"].ToString();
+                string image = row["Image"].ToString();
+                string type = row["Type"].ToString();
+                string location = row["Location"].ToString();
+                string description = row["Description"].ToString();
+                string str_report = row["Report"].ToString();
+                int report = Convert.ToInt32(str_report);
+                Boolean bookmark = Convert.ToBoolean(row["Bookmark"]);
+                post = new Post(title, image, type, location, description, report, bookmark, username);
+            }
+            return post;
         }
     }
 }
