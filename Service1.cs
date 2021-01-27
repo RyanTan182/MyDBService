@@ -68,6 +68,12 @@ namespace MyDBService
             Account act = new Account();
             return act.SelectByUsername(username);
         }
+
+        public Account GetAccountByEmail(string email)
+        {
+            Account act = new Account();
+            return act.SelectByEmail(email);
+        }
         public Account GetAccountDetail(string username)
         {
             Account act = new Account();
@@ -88,6 +94,12 @@ namespace MyDBService
         {
             Account act = new Account();
             return act.UpdatePassword(username, passwordhash,passwordsalt);
+        }
+
+        public int UpdateAccountPasswordByEmail(string email, string passwordhash, string passwordsalt)
+        {
+            Account act = new Account();
+            return act.UpdatePasswordByEmail(email, passwordhash, passwordsalt);
         }
         public int UpdateUserType(string username, string usertype)
         {
@@ -130,6 +142,23 @@ namespace MyDBService
             return post.Insert();
         }
 
+        public int UpdatePost(int postID, string title, string image, string type, string location, string description, Boolean bookmark)
+        {
+            Post post = new Post();
+            return post.UpdateAPost(postID, title, image, type, location, description, bookmark);
+        }
+
+        public Post GetAPost(int postID)
+        {
+            Post post = new Post();
+            return post.GetAPost(postID);
+        }
+
+        public Post GetPostByUsername(string username)
+        {
+            Post post = new Post();
+            return post.GetPostByUsername(username);
+        }
 
         // Mengxi
         public int CreatePlan(string timecreated, string username, string planname)

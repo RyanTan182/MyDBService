@@ -39,6 +39,9 @@ namespace MyDBService
         Account GetAccountByUsername(string username);
 
         [OperationContract]
+        Account GetAccountByEmail(string email);
+
+        [OperationContract]
         Account GetAccountDetail(string username);
 
         [OperationContract]
@@ -46,10 +49,16 @@ namespace MyDBService
         // TODO: Add your service operations here
 
         [OperationContract]
+        Activity SelectById(int id);
+
+        [OperationContract]
         int UpdateAccountDetails(string username, string email, string contactno);
 
         [OperationContract]
         int UpdateAccountPassword(string username, string passwordhash, string passwordsalt);
+
+        [OperationContract]
+        int UpdateAccountPasswordByEmail(string email, string passwordhash, string passwordsalt);
 
         [OperationContract]
         int UpdateUserType(string username, string usertype);
@@ -65,9 +74,26 @@ namespace MyDBService
         [OperationContract]
         int CreatePost(string title, string image, string type, string location, string description, string username);
 
+        [OperationContract]
+        int UpdatePost(int PostID, string title, string image, string type, string location, string description, Boolean bookmark);
 
         [OperationContract]
-        int CreateActivity(string duration, double price, string details, string tag, string activityname, string image);
+        Post GetAPost(int postID);
+
+        [OperationContract]
+        Post GetPostByUsername(string username);
+
+        //Yongsheng
+
+        [OperationContract]
+        int CreateActivity(string duration, double price, string details, string tag, string activityname,string image);
+
+        [OperationContract]
+        int UpdateActivity(int id,string duration, double price, string details, string tag, string activityname,string image);
+
+        [OperationContract]
+        int DeleteActivity(int id);
+
 
         //Mengxi
         [OperationContract]
