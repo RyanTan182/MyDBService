@@ -104,11 +104,11 @@ namespace MyDBService
             Activity act = new Activity();
             return act.SelectById(id);
         }
-        public int DeleteActivity(int id)
-        {
-            Activity act = new Activity();
-            return act.DeleteActivity(id);
-        }
+        //public int deleteactivity(int id)
+        //{
+        //    activity act = new activity();
+        //    return act.deleteactivity(id);
+        //}
         public int UpdateCode(string name, string code)
         {
             Promotion pro = new Promotion();
@@ -131,5 +131,26 @@ namespace MyDBService
         }
 
 
+        // Mengxi
+        public int CreatePlan(string timecreated, string username, string planname)
+        {
+            Plan plan = new Plan(timecreated, username, planname);
+            return plan.Insert();
+        }
+        public List<Plan> GetPlanByUsername(string username)
+        {
+            Plan act = new Plan();
+            return act.SelectPlanByUsername(username);
+        }
+        public int UpdatePlanname(int planid, string planname)
+        {
+            Plan act = new Plan();
+            return act.UpdatePlanname(planid, planname);
+        }
+        public int DeletePlan(int planid)
+        {
+            Plan act = new Plan();
+            return act.DeletePlan(planid);
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace MyDBService
         int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype);
 
         [OperationContract]
-        int CreatePromotion(string name,string overview, Byte[] promotionimage, DateTime expirydate, double minimumspend, string code);
+        int CreatePromotion(string name,string overview, string promotionimage, DateTime expirydate, double minimumspend, string code);
 
         [OperationContract]
         int CreatePayment(double cardnumber, int cvv, string date);
@@ -67,9 +67,19 @@ namespace MyDBService
 
 
         [OperationContract]
-        int CreateActivity(string duration, double price, string details, string tag, string activityname);
+        int CreateActivity(string duration, double price, string details, string tag, string activityname, string image);
 
         //Mengxi
+        [OperationContract]
+        int CreatePlan(string timecreated, string username, string planname);
+        [OperationContract]
+        List<Plan> GetPlanByUsername(string username);
+        [OperationContract]
+        int UpdatePlanname(int planid, string planname);
+        [OperationContract]
+        int DeletePlan(int planid);
+
+
     }
 
     // Use a data contract as illustrated in the sample below to add composite types to service operations.
