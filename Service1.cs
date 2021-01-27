@@ -33,14 +33,14 @@ namespace MyDBService
             Account emp = new Account(username, email, contactno, passwordhash, passwordsalt, usertype);
             return emp.Insert();
         }
-        public int CreatePromotion(string name, string overview, Byte[] promotionimage, DateTime expirydate, double minimumspend,string code)
+        public int CreatePromotion(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend,string code)
         {
             Promotion emp = new Promotion(name, overview, promotionimage, expirydate, minimumspend,code);
             return emp.Insert();
         }
-        public int CreateActivity(string duration, double price, string details, string tag, string activityname)
+        public int CreateActivity(string duration, double price, string details, string tag, string activityname,string image)
         {
-            Activity emp = new Activity(duration, price, details, tag, activityname);
+            Activity emp = new Activity(duration, price, details, tag, activityname,image);
             return emp.Insert();
         }
         public int CreatePayment(double cardnumber,int cvv,string date)
@@ -68,6 +68,12 @@ namespace MyDBService
             Account act = new Account();
             return act.SelectByUsername(username);
         }
+
+        public Account GetAccountByEmail(string email)
+        {
+            Account act = new Account();
+            return act.SelectByEmail(email);
+        }
         public Account GetAccountDetail(string username)
         {
             Account act = new Account();
@@ -89,10 +95,31 @@ namespace MyDBService
             Account act = new Account();
             return act.UpdatePassword(username, passwordhash,passwordsalt);
         }
+
+        public int UpdateAccountPasswordByEmail(string email, string passwordhash, string passwordsalt)
+        {
+            Account act = new Account();
+            return act.UpdatePasswordByEmail(email, passwordhash, passwordsalt);
+        }
         public int UpdateUserType(string username, string usertype)
         {
             Account act = new Account();
             return act.UpdateUserType(username,usertype);
+        }
+        public int UpdateActivity(int id, string duration, double price, string details, string tag, string activityname,string image)
+        {
+            Activity act = new Activity();
+            return act.UpdateActivity(id,duration,price,details,tag,activityname,image);
+        }
+        public Activity SelectById(int id)
+        {
+            Activity act = new Activity();
+            return act.SelectById(id);
+        }
+        public int DeleteActivity(int id)
+        {
+            Activity act = new Activity();
+            return act.DeleteActivity(id);
         }
         public int UpdateCode(string name, string code)
         {
