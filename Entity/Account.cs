@@ -217,18 +217,17 @@ namespace MyDBService.Entity
             return result;
         }
 
-        public int UpdatePassword(string username, string passwordhash, string passwordsalt)
+        public int UpdatePassword(string username, string passwordhash)
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
 
-            string sqlStmt = "UPDATE Account SET passwordhash = @paraPasswordHash, passwordsalt= @paraPasswordSalt where username =  @paraUsername";
+            string sqlStmt = "UPDATE Account SET passwordhash = @paraPasswordHash where username =  @paraUsername";
 
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             sqlCmd.Parameters.AddWithValue("@paraUsername", username);
             sqlCmd.Parameters.AddWithValue("@paraPasswordHash", passwordhash);
-            sqlCmd.Parameters.AddWithValue("@paraPasswordSalt", passwordsalt);
             
             myConn.Open();
             int result = sqlCmd.ExecuteNonQuery();
@@ -238,18 +237,17 @@ namespace MyDBService.Entity
             return result;
         }
 
-        public int UpdatePasswordByEmail(string email , string passwordhash, string passwordsalt)
+        public int UpdatePasswordByEmail(string email , string passwordhash)
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
 
-            string sqlStmt = "UPDATE Account SET passwordhash = @paraPasswordHash, passwordsalt= @paraPasswordSalt where email =  @paraEmail";
+            string sqlStmt = "UPDATE Account SET passwordhash = @paraPasswordHash where email =  @paraEmail";
 
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             sqlCmd.Parameters.AddWithValue("@paraEmail", email);
             sqlCmd.Parameters.AddWithValue("@paraPasswordHash", passwordhash);
-            sqlCmd.Parameters.AddWithValue("@paraPasswordSalt", passwordsalt);
 
             myConn.Open();
             int result = sqlCmd.ExecuteNonQuery();

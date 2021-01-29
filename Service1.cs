@@ -90,16 +90,16 @@ namespace MyDBService
             return act.UpdateAccountDetails(username,email,contactno);
         }
 
-        public int UpdateAccountPassword(string username, string passwordhash, string passwordsalt)
+        public int UpdateAccountPassword(string username, string passwordhash)
         {
             Account act = new Account();
-            return act.UpdatePassword(username, passwordhash,passwordsalt);
+            return act.UpdatePassword(username, passwordhash);
         }
 
-        public int UpdateAccountPasswordByEmail(string email, string passwordhash, string passwordsalt)
+        public int UpdateAccountPasswordByEmail(string email, string passwordhash)
         {
             Account act = new Account();
-            return act.UpdatePasswordByEmail(email, passwordhash, passwordsalt);
+            return act.UpdatePasswordByEmail(email, passwordhash);
         }
         public int UpdateUserType(string username, string usertype)
         {
