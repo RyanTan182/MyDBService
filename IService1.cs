@@ -42,6 +42,9 @@ namespace MyDBService
         Account GetAccountByUsername(string username);
 
         [OperationContract]
+        Account GetAccountByEmail(string email);
+
+        [OperationContract]
         Account GetAccountDetail(string username);
 
         [OperationContract]
@@ -55,7 +58,10 @@ namespace MyDBService
         int UpdateAccountDetails(string username, string email, string contactno);
 
         [OperationContract]
-        int UpdateAccountPassword(string username, string passwordhash, string passwordsalt);
+        int UpdateAccountPassword(string username, string passwordhash);
+
+        [OperationContract]
+        int UpdateAccountPasswordByEmail(string email, string passwordhash);
 
         [OperationContract]
         int UpdateUserType(string username, string usertype);
@@ -71,6 +77,16 @@ namespace MyDBService
         [OperationContract]
         int CreatePost(string title, string image, string type, string location, string description, string username);
 
+        [OperationContract]
+        int UpdatePost(int PostID, string title, string image, string type, string location, string description, Boolean bookmark);
+
+        [OperationContract]
+        Post GetAPost(int postID);
+
+        [OperationContract]
+        Post GetPostByUsername(string username);
+
+        //Yongsheng
 
         [OperationContract]
         int CreateActivity(string duration, double price, string details, string tag, string activityname,string image);
@@ -78,11 +94,25 @@ namespace MyDBService
         [OperationContract]
         int UpdateActivity(int id,string duration, double price, string details, string tag, string activityname,string image);
 
-        [OperationContract]
-        int DeleteActivity(int id);
+        //[OperationContract]
+        //int DeleteActivity(int id);
 
 
         //Mengxi
+
+        [OperationContract]
+        int CreatePlan(string timecreated, string username, string planname);
+
+        [OperationContract]
+        List<Plan> GetPlanByUsername(string username);
+
+        [OperationContract]
+        int UpdatePlanname(int planid, string planname);
+
+        [OperationContract]
+        int DeletePlan(int planid);
+
+
     }
 
     // Use a data contract as illustrated in the sample below to add composite types to service operations.

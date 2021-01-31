@@ -73,6 +73,12 @@ namespace MyDBService
             Account act = new Account();
             return act.SelectByUsername(username);
         }
+
+        public Account GetAccountByEmail(string email)
+        {
+            Account act = new Account();
+            return act.SelectByEmail(email);
+        }
         public Account GetAccountDetail(string username)
         {
             Account act = new Account();
@@ -89,10 +95,16 @@ namespace MyDBService
             return act.UpdateAccountDetails(username,email,contactno);
         }
 
-        public int UpdateAccountPassword(string username, string passwordhash, string passwordsalt)
+        public int UpdateAccountPassword(string username, string passwordhash)
         {
             Account act = new Account();
-            return act.UpdatePassword(username, passwordhash,passwordsalt);
+            return act.UpdatePassword(username, passwordhash);
+        }
+
+        public int UpdateAccountPasswordByEmail(string email, string passwordhash)
+        {
+            Account act = new Account();
+            return act.UpdatePasswordByEmail(email, passwordhash);
         }
         public int UpdateUserType(string username, string usertype)
         {
@@ -109,11 +121,11 @@ namespace MyDBService
             Activity act = new Activity();
             return act.SelectById(id);
         }
-        public int DeleteActivity(int id)
-        {
-            Activity act = new Activity();
-            return act.DeleteActivity(id);
-        }
+        //public int deleteactivity(int id)
+        //{
+        //    activity act = new activity();
+        //    return act.deleteactivity(id);
+        //}
         public int UpdateCode(string name, string code)
         {
             Promotion pro = new Promotion();
@@ -135,6 +147,44 @@ namespace MyDBService
             return post.Insert();
         }
 
+        public int UpdatePost(int postID, string title, string image, string type, string location, string description, Boolean bookmark)
+        {
+            Post post = new Post();
+            return post.UpdateAPost(postID, title, image, type, location, description, bookmark);
+        }
 
+        public Post GetAPost(int postID)
+        {
+            Post post = new Post();
+            return post.GetAPost(postID);
+        }
+
+        public Post GetPostByUsername(string username)
+        {
+            Post post = new Post();
+            return post.GetPostByUsername(username);
+        }
+
+        // Mengxi
+        public int CreatePlan(string timecreated, string username, string planname)
+        {
+            Plan plan = new Plan(timecreated, username, planname);
+            return plan.Insert();
+        }
+        public List<Plan> GetPlanByUsername(string username)
+        {
+            Plan act = new Plan();
+            return act.SelectPlanByUsername(username);
+        }
+        public int UpdatePlanname(int planid, string planname)
+        {
+            Plan act = new Plan();
+            return act.UpdatePlanname(planid, planname);
+        }
+        public int DeletePlan(int planid)
+        {
+            Plan act = new Plan();
+            return act.DeletePlan(planid);
+        }
     }
 }
