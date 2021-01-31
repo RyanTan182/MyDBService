@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Entity\Account.cs" />
     <Compile Include="Entity\Activity.cs" />
+    <Compile Include="Entity\Cart.cs" />
     <Compile Include="Entity\Payment.cs" />
     <Compile Include="Entity\Plan.cs" />
     <Compile Include="Entity\PlanActivity.cs" />
