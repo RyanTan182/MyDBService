@@ -28,9 +28,9 @@ namespace MyDBService
             }
             return composite;
         }
-        public int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype)
+        public int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype, string verificationcode, string accountstatus)
         {
-            Account emp = new Account(username, email, contactno, passwordhash, passwordsalt, usertype);
+            Account emp = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode, accountstatus);
             return emp.Insert();
         }
         public int CreatePromotion(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend,string code)
@@ -90,6 +90,18 @@ namespace MyDBService
             return act.UpdateAccountDetails(username,email,contactno);
         }
 
+        public int UpdateEmail(string username, string email)
+        {
+            Account act = new Account();
+            return act.UpdateEmail(username, email);
+        }
+
+        public int UpdateContact(string username, string contactno)
+        {
+            Account act = new Account();
+            return act.UpdateContact(username, contactno);
+        }
+
         public int UpdateAccountPassword(string username, string passwordhash)
         {
             Account act = new Account();
@@ -105,6 +117,12 @@ namespace MyDBService
         {
             Account act = new Account();
             return act.UpdateUserType(username,usertype);
+        }
+
+        public int UpdateAccountStatus(string username, string accountstatus)
+        {
+            Account act = new Account();
+            return act.UpdateUserType(username, accountstatus);
         }
         public int UpdateActivity(int id, string duration, double price, string details, string tag, string activityname,string image)
         {

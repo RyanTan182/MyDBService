@@ -17,7 +17,9 @@ namespace MyDBService.Entity
         public string PasswordHash { get; set; }
         public string PasswordSalt { get; set; }
         public string UserType { get; set; }
-        public Account(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype)
+        public string VerificationCode { get; set; }
+        public string AccountStatus { get; set; }
+        public Account(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype, string verificationcode, string accountstatus)
         {
             Username = username;
             Email = email;
@@ -25,6 +27,8 @@ namespace MyDBService.Entity
             PasswordHash = passwordhash;
             PasswordSalt = passwordsalt;
             UserType = usertype;
+            VerificationCode = verificationcode;
+            AccountStatus = accountstatus;
         }
         public Account()
         {
@@ -39,8 +43,8 @@ namespace MyDBService.Entity
             SqlConnection myConn = new SqlConnection(DBConnect);
 
             // Step 2 - Create a SqlCommand object to add record with INSERT statement
-            string sqlStmt = "INSERT INTO Account (Username, Email, ContactNo, PasswordHash, PasswordSalt, UserType) " +
-                "VALUES (@paraUsername, @paraEmail, @paraContactNo, @paraPasswordHash, @paraPasswordSalt, @paraUsertype)";
+            string sqlStmt = "INSERT INTO Account (Username, Email, ContactNo, PasswordHash, PasswordSalt, UserType, VerificationCode , AccountStatus) " +
+                "VALUES (@paraUsername, @paraEmail, @paraContactNo, @paraPasswordHash, @paraPasswordSalt, @paraUsertype , @paraVerificationCode , @paraAccountStatus)";
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             // Step 3 : Add each parameterised variable with value
@@ -50,7 +54,8 @@ namespace MyDBService.Entity
             sqlCmd.Parameters.AddWithValue("@paraPasswordHash", PasswordHash);
             sqlCmd.Parameters.AddWithValue("@paraPasswordSalt", PasswordSalt);
             sqlCmd.Parameters.AddWithValue("@paraUsertype", UserType);
-
+            sqlCmd.Parameters.AddWithValue("@paraVerificationCode", VerificationCode);
+            sqlCmd.Parameters.AddWithValue("@paraAccountStatus", AccountStatus);
             // Step 4 Open connection the execute NonQuery of sql command   
             myConn.Open();
             int result = sqlCmd.ExecuteNonQuery();
@@ -89,7 +94,9 @@ namespace MyDBService.Entity
                 string passwordhash = row["PasswordHash"].ToString();
                 string passwordsalt = row["PasswordSalt"].ToString();
                 string usertype = row["UserType"].ToString();
-                act = new Account(username, email, contactno, passwordhash, passwordsalt, usertype) ;
+                string verificationcode = row["VerificationCode"].ToString();
+                string accountstatus = row["AccountStatus"].ToString();
+                act = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode , accountstatus) ;
             }
             return act;
         }
@@ -123,7 +130,9 @@ namespace MyDBService.Entity
                 string passwordhash = row["PasswordHash"].ToString();
                 string passwordsalt = row["PasswordSalt"].ToString();
                 string usertype = row["UserType"].ToString();
-                act = new Account(username, email, contactno, passwordhash, passwordsalt, usertype);
+                string verificationcode = row["VerificationCode"].ToString();
+                string accountstatus = row["AccountStatus"].ToString();
+                act = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode , accountstatus);
             }
             return act;
         }
@@ -157,7 +166,9 @@ namespace MyDBService.Entity
                 string passwordhash = row["PasswordHash"].ToString();
                 string passwordsalt = row["PasswordSalt"].ToString();
                 string usertype = row["UserType"].ToString();
-                Account obj = new Account(username, email, contactno, passwordhash, passwordsalt, usertype);
+                string verificationcode = row["VerificationCode"].ToString();
+                string accountstatus = row["AccountStatus"].ToString();
+                Account obj = new Account(username, email, contactno, passwordhash, passwordsalt, usertype ,verificationcode,accountstatus);
                 actList.Add(obj);
             }
             return actList;
@@ -191,7 +202,9 @@ namespace MyDBService.Entity
                 string passwordhash = row["PasswordHash"].ToString();
                 string passwordsalt = row["PasswordSalt"].ToString();
                 string usertype = row["UserType"].ToString();
-                act = new Account(username, email, contactno, passwordhash, passwordsalt, usertype);
+                string verificationcode = row["VerificationCode"].ToString();
+                string accountstatus = row["AccountStatus"].ToString();
+                act = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode , accountstatus);
             }
             return act;
         }
@@ -209,6 +222,46 @@ namespace MyDBService.Entity
             sqlCmd.Parameters.AddWithValue("@paraEmail", email);
             sqlCmd.Parameters.AddWithValue("@paraContactNo", contact);
            
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+
+            return result;
+        }
+
+        public int UpdateEmail(string username, string email)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "UPDATE Account SET email = @paraEmail where username =  @paraUsername";
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            sqlCmd.Parameters.AddWithValue("@paraUsername", username);
+            sqlCmd.Parameters.AddWithValue("@paraEmail", email);
+
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+
+            return result;
+        }
+
+        public int UpdateContact(string username, string contact)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "UPDATE Account SET ContactNo= @paraContactNo where username =  @paraUsername";
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            sqlCmd.Parameters.AddWithValue("@paraUsername", username);
+            sqlCmd.Parameters.AddWithValue("@paraContactNo", contact);
+
             myConn.Open();
             int result = sqlCmd.ExecuteNonQuery();
 
@@ -263,11 +316,29 @@ namespace MyDBService.Entity
             SqlConnection myConn = new SqlConnection(DBConnect);
 
             string sqlStmt = "UPDATE Account SET usertype = @paraUserType where username =  @paraUsername";
-
+                        
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             sqlCmd.Parameters.AddWithValue("@paraUsername", username);
             sqlCmd.Parameters.AddWithValue("@paraUserType", usertype);
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+
+            return result;
+        }
+        public int UpdateAccountStatus(string username, string accountstatus)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "UPDATE Account SET AccountStatus = @paraAccountStatus where username =  @paraUsername";
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            sqlCmd.Parameters.AddWithValue("@paraUsername", username);
+            sqlCmd.Parameters.AddWithValue("@paraAccountStatus", accountstatus);
             myConn.Open();
             int result = sqlCmd.ExecuteNonQuery();
 

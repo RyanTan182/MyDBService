@@ -19,7 +19,7 @@ namespace MyDBService
         CompositeType GetDataUsingDataContract(CompositeType composite);
 
         [OperationContract]
-        int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype);
+        int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype , string verificationcode, string accountstatus);
 
         [OperationContract]
         int CreatePromotion(string name,string overview, string promotionimage, DateTime expirydate, double minimumspend, string code);
@@ -55,6 +55,12 @@ namespace MyDBService
         int UpdateAccountDetails(string username, string email, string contactno);
 
         [OperationContract]
+        int UpdateEmail(string username, string email);
+
+        [OperationContract]
+        int UpdateContact(string username, string contactno);
+
+        [OperationContract]
         int UpdateAccountPassword(string username, string passwordhash);
 
         [OperationContract]
@@ -62,6 +68,9 @@ namespace MyDBService
 
         [OperationContract]
         int UpdateUserType(string username, string usertype);
+
+        [OperationContract]
+        int UpdateAccountStatus(string username, string accountstatus);
 
         [OperationContract]
         int UpdateCode(string name, string code);
