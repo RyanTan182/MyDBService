@@ -48,6 +48,11 @@ namespace MyDBService
             Payment emp = new Payment(cardnumber, cvv, date);
             return emp.Insert();
         }
+        public int CreateCart(int quantity, double totalprice, string username, string time, double price, string name, string desc, string image)
+        {
+            Cart emp = new Cart(quantity, totalprice, username, time, price, name, desc, image);
+            return emp.Insert();
+        }
         public List<Account> GetAllAccount ()
         {
             Account act=new Account();

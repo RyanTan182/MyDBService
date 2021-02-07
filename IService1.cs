@@ -26,6 +26,9 @@ namespace MyDBService
 
         [OperationContract]
         int CreatePayment(double cardnumber, int cvv, string date);
+
+        [OperationContract]
+        int CreateCart(int quantity,double totalprice,string username, string time, double price, string name, string desc, string image);
         [OperationContract]
         List<Account> GetAllAccount();
 
