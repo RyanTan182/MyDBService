@@ -89,6 +89,14 @@ namespace MyDBService
 
         [OperationContract]
         int UpdatePromotionStatus(string name, string promotionstatus);
+
+        [OperationContract]
+        int UpdatePromotionStatusAndCode(string name,string code, string promotionstatus);
+
+        [OperationContract]
+        int UpdatePromotionDetails(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus);
+
+
         //Uwais Alqarni
 
         [OperationContract]

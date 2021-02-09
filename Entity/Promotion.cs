@@ -208,5 +208,48 @@ namespace MyDBService.Entity
 
             return result;
         }
+
+        public int UpdatePromotionStatusAndCode(string name, string code, string promotionstatus)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "UPDATE Promotion SET PromotionStatus = @paraPromotionStatus, Code = @paraCode where name =  @paraName";
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            sqlCmd.Parameters.AddWithValue("@paraName", name);
+            sqlCmd.Parameters.AddWithValue("@paraPromotionStatus", promotionstatus);
+            sqlCmd.Parameters.AddWithValue("@paraCode", code);
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+
+            return result;
+        }
+        public int UpdatePromotionDetails(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "UPDATE Promotion SET Name= @paraName, Overview = @paraOverview, PromotionImage = @paraPromotionImage , ExpiryDate = @paraExpiryDate , MinimumSpend = @paraMinimumSpend , Code = @paraCode , PromotionStatus = @paraPromotionStatus where name =  @paraName";
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            sqlCmd.Parameters.AddWithValue("@paraName", name);
+            sqlCmd.Parameters.AddWithValue("@paraOverview", overview);
+            sqlCmd.Parameters.AddWithValue("@paraPromotionImage", promotionimage);
+            sqlCmd.Parameters.AddWithValue("@paraExpiryDate", expirydate);
+            sqlCmd.Parameters.AddWithValue("@paraMinimumSpend", minimumspend);
+            sqlCmd.Parameters.AddWithValue("@paraCode", code);
+            sqlCmd.Parameters.AddWithValue("@paraPromotionStatus", promotionstatus);
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+
+            return result;
+        }
     }
 }

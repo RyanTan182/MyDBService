@@ -174,6 +174,17 @@ namespace MyDBService
             return pro.UpdateCode(name, promotionstatus);
         }
 
+        public int UpdatePromotionStatusAndCode(string name,string code,  string promotionstatus)
+        {
+            Promotion pro = new Promotion();
+            return pro.UpdatePromotionStatusAndCode(name, code, promotionstatus);
+        }
+
+        public int UpdatePromotionDetails(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus)
+        {
+            Promotion pro = new Promotion();
+            return pro.UpdatePromotionDetails(name, overview,promotionimage,expirydate,minimumspend,code,promotionstatus);
+        }
 
         //Uwais Alqarni
 
