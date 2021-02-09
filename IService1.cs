@@ -19,16 +19,16 @@ namespace MyDBService
         CompositeType GetDataUsingDataContract(CompositeType composite);
 
         [OperationContract]
-        int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype , string verificationcode, string accountstatus , string resetpasswordcode, DateTime expirycode);
+        int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype, string verificationcode, string accountstatus, string resetpasswordcode, DateTime expirycode);
 
         [OperationContract]
-        int CreatePromotion(string name,string overview, string promotionimage, DateTime expirydate, double minimumspend, string code , string promotionstatus);
+        int CreatePromotion(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus);
 
         [OperationContract]
         int CreatePayment(double cardnumber, int cvv, string date);
 
         [OperationContract]
-        int CreateCart(int quantity,double totalprice,string username, string time, double price, string name, string desc, string image);
+        int CreateCart(int quantity, double totalprice, string username, string time, double price, string name, string desc, string image);
         [OperationContract]
         List<Account> GetAllAccount();
 
@@ -37,6 +37,12 @@ namespace MyDBService
 
         [OperationContract]
         List<Promotion> GetAllPromotionsByPromotionStatus(string promotionstatus);
+
+        [OperationContract]
+        List<Promotion> GetAllAvailablePromotions();
+
+        [OperationContract]
+        List<Promotion> GetAllExpiredPromotion();
 
         [OperationContract]
         List<Activity> GetAllActivity();
@@ -79,7 +85,7 @@ namespace MyDBService
         int UpdateResetPasswordCode(string username, string resetpasswordcode);
 
         [OperationContract]
-        int UpdateExpiryCode(string username, DateTime expirycode); 
+        int UpdateExpiryCode(string username, DateTime expirycode);
 
         [OperationContract]
         int UpdateAccountStatus(string username, string accountstatus);
@@ -91,7 +97,7 @@ namespace MyDBService
         int UpdatePromotionStatus(string name, string promotionstatus);
 
         [OperationContract]
-        int UpdatePromotionStatusAndCode(string name,string code, string promotionstatus);
+        int UpdatePromotionStatusAndCode(string name, string code, string promotionstatus);
 
         [OperationContract]
         int UpdatePromotionDetails(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus);
@@ -117,10 +123,10 @@ namespace MyDBService
         //Yongsheng
 
         [OperationContract]
-        int CreateActivity(string duration, double price, string details, string tag, string activityname,string image);
+        int CreateActivity(string duration, double price, string details, string tag, string activityname, string image);
 
         [OperationContract]
-        int UpdateActivity(int id,string duration, double price, string details, string tag, string activityname,string image);
+        int UpdateActivity(int id, string duration, double price, string details, string tag, string activityname, string image);
 
         //[OperationContract]
         //int DeleteActivity(int id);
