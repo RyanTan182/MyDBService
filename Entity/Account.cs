@@ -19,7 +19,9 @@ namespace MyDBService.Entity
         public string UserType { get; set; }
         public string VerificationCode { get; set; }
         public string AccountStatus { get; set; }
-        public Account(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype, string verificationcode, string accountstatus)
+        public string ResetPasswordCode { get; set; }
+        public DateTime ExpiryCode { get; set; }
+        public Account(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype, string verificationcode, string accountstatus , string resetpasswordcode , DateTime expirycode)
         {
             Username = username;
             Email = email;
@@ -29,6 +31,8 @@ namespace MyDBService.Entity
             UserType = usertype;
             VerificationCode = verificationcode;
             AccountStatus = accountstatus;
+            ResetPasswordCode = resetpasswordcode;
+            ExpiryCode = expirycode;
         }
         public Account()
         {
@@ -43,8 +47,8 @@ namespace MyDBService.Entity
             SqlConnection myConn = new SqlConnection(DBConnect);
 
             // Step 2 - Create a SqlCommand object to add record with INSERT statement
-            string sqlStmt = "INSERT INTO Account (Username, Email, ContactNo, PasswordHash, PasswordSalt, UserType, VerificationCode , AccountStatus) " +
-                "VALUES (@paraUsername, @paraEmail, @paraContactNo, @paraPasswordHash, @paraPasswordSalt, @paraUsertype , @paraVerificationCode , @paraAccountStatus)";
+            string sqlStmt = "INSERT INTO Account (Username, Email, ContactNo, PasswordHash, PasswordSalt, UserType, VerificationCode , AccountStatus, ResetPasswordCode , ExpiryCode) " +
+                "VALUES (@paraUsername, @paraEmail, @paraContactNo, @paraPasswordHash, @paraPasswordSalt, @paraUsertype , @paraVerificationCode , @paraAccountStatus , @paraResetPasswordCode , @paraExpiryCode)";
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             // Step 3 : Add each parameterised variable with value
@@ -56,6 +60,8 @@ namespace MyDBService.Entity
             sqlCmd.Parameters.AddWithValue("@paraUsertype", UserType);
             sqlCmd.Parameters.AddWithValue("@paraVerificationCode", VerificationCode);
             sqlCmd.Parameters.AddWithValue("@paraAccountStatus", AccountStatus);
+            sqlCmd.Parameters.AddWithValue("@paraResetPasswordCode", ResetPasswordCode);
+            sqlCmd.Parameters.AddWithValue("@paraExpiryCode", ExpiryCode);
             // Step 4 Open connection the execute NonQuery of sql command   
             myConn.Open();
             int result = sqlCmd.ExecuteNonQuery();
@@ -96,7 +102,9 @@ namespace MyDBService.Entity
                 string usertype = row["UserType"].ToString();
                 string verificationcode = row["VerificationCode"].ToString();
                 string accountstatus = row["AccountStatus"].ToString();
-                act = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode , accountstatus) ;
+                string resetpasswordcode = row["ResetPasswordCode"].ToString();
+                DateTime expirycode = Convert.ToDateTime(row["ExpiryCode"]);
+                act = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode , accountstatus , resetpasswordcode , expirycode) ;
             }
             return act;
         }
@@ -132,7 +140,9 @@ namespace MyDBService.Entity
                 string usertype = row["UserType"].ToString();
                 string verificationcode = row["VerificationCode"].ToString();
                 string accountstatus = row["AccountStatus"].ToString();
-                act = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode , accountstatus);
+                string resetpasswordcode = row["ResetPasswordCode"].ToString();
+                DateTime expirycode = Convert.ToDateTime(row["ExpiryCode"]);
+                act = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode , accountstatus , resetpasswordcode , expirycode);
             }
             return act;
         }
@@ -168,7 +178,9 @@ namespace MyDBService.Entity
                 string usertype = row["UserType"].ToString();
                 string verificationcode = row["VerificationCode"].ToString();
                 string accountstatus = row["AccountStatus"].ToString();
-                Account obj = new Account(username, email, contactno, passwordhash, passwordsalt, usertype ,verificationcode,accountstatus);
+                string resetpasswordcode = row["ResetPasswordCode"].ToString();
+                DateTime expirycode = Convert.ToDateTime(row["ExpiryCode"]);
+                Account obj = new Account(username, email, contactno, passwordhash, passwordsalt, usertype ,verificationcode,accountstatus, resetpasswordcode , expirycode);
                 actList.Add(obj);
             }
             return actList;
@@ -204,7 +216,9 @@ namespace MyDBService.Entity
                 string usertype = row["UserType"].ToString();
                 string verificationcode = row["VerificationCode"].ToString();
                 string accountstatus = row["AccountStatus"].ToString();
-                act = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode , accountstatus);
+                string resetpasswordcode = row["ResetPasswordCode"].ToString();
+                DateTime expirycode = Convert.ToDateTime(row["ExpiryCode"]);
+                act = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode , accountstatus , resetpasswordcode , expirycode);
             }
             return act;
         }
@@ -328,12 +342,51 @@ namespace MyDBService.Entity
 
             return result;
         }
+
+        public int UpdateExpiryCode(string username, DateTime expirycode)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "UPDATE Account SET ExpiryCode = @paraExpiryCode where username =  @paraUsername";
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            sqlCmd.Parameters.AddWithValue("@paraUsername", username);
+            sqlCmd.Parameters.AddWithValue("@paraExpiryCode", expirycode);
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+
+            return result;
+        }
+
+        public int UpdateResetPasswordCode(string username, string resetpasswordcode)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "UPDATE Account SET ResetPasswordCode = @paraResetPasswordCode where username =  @paraUsername";
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            sqlCmd.Parameters.AddWithValue("@paraUsername", username);
+            sqlCmd.Parameters.AddWithValue("@paraResetPasswordCode", resetpasswordcode);
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+
+            return result;
+        }
+
         public int UpdateAccountStatus(string username, string accountstatus)
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
 
-            string sqlStmt = "UPDATE Account SET AccountStatus = @paraAccountStatus where username =  @paraUsername";
+            string sqlStmt = "UPDATE Account SET accountstatus = @paraAccountStatus where username =  @paraUsername";
 
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
 

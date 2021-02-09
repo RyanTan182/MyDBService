@@ -19,10 +19,10 @@ namespace MyDBService
         CompositeType GetDataUsingDataContract(CompositeType composite);
 
         [OperationContract]
-        int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype , string verificationcode, string accountstatus);
+        int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype , string verificationcode, string accountstatus , string resetpasswordcode, DateTime expirycode);
 
         [OperationContract]
-        int CreatePromotion(string name,string overview, string promotionimage, DateTime expirydate, double minimumspend, string code);
+        int CreatePromotion(string name,string overview, string promotionimage, DateTime expirydate, double minimumspend, string code , string promotionstatus);
 
         [OperationContract]
         int CreatePayment(double cardnumber, int cvv, string date);
@@ -34,6 +34,9 @@ namespace MyDBService
 
         [OperationContract]
         List<Promotion> GetAllPromotion();
+
+        [OperationContract]
+        List<Promotion> GetAllPromotionsByPromotionStatus(string promotionstatus);
 
         [OperationContract]
         List<Activity> GetAllActivity();
@@ -73,11 +76,19 @@ namespace MyDBService
         int UpdateUserType(string username, string usertype);
 
         [OperationContract]
+        int UpdateResetPasswordCode(string username, string resetpasswordcode);
+
+        [OperationContract]
+        int UpdateExpiryCode(string username, DateTime expirycode); 
+
+        [OperationContract]
         int UpdateAccountStatus(string username, string accountstatus);
 
         [OperationContract]
         int UpdateCode(string name, string code);
 
+        [OperationContract]
+        int UpdatePromotionStatus(string name, string promotionstatus);
         //Uwais Alqarni
 
         [OperationContract]
