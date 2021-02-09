@@ -19,13 +19,16 @@ namespace MyDBService
         CompositeType GetDataUsingDataContract(CompositeType composite);
 
         [OperationContract]
-        int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype);
+        int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype , string verificationcode, string accountstatus);
 
         [OperationContract]
         int CreatePromotion(string name,string overview, string promotionimage, DateTime expirydate, double minimumspend, string code);
 
         [OperationContract]
         int CreatePayment(double cardnumber, int cvv, string date);
+
+        [OperationContract]
+        int CreateCart(int quantity,double totalprice,string username, string time, double price, string name, string desc, string image);
         [OperationContract]
         List<Account> GetAllAccount();
 
@@ -55,13 +58,22 @@ namespace MyDBService
         int UpdateAccountDetails(string username, string email, string contactno);
 
         [OperationContract]
-        int UpdateAccountPassword(string username, string passwordhash, string passwordsalt);
+        int UpdateEmail(string username, string email);
 
         [OperationContract]
-        int UpdateAccountPasswordByEmail(string email, string passwordhash, string passwordsalt);
+        int UpdateContact(string username, string contactno);
+
+        [OperationContract]
+        int UpdateAccountPassword(string username, string passwordhash);
+
+        [OperationContract]
+        int UpdateAccountPasswordByEmail(string email, string passwordhash);
 
         [OperationContract]
         int UpdateUserType(string username, string usertype);
+
+        [OperationContract]
+        int UpdateAccountStatus(string username, string accountstatus);
 
         [OperationContract]
         int UpdateCode(string name, string code);
@@ -91,11 +103,25 @@ namespace MyDBService
         [OperationContract]
         int UpdateActivity(int id,string duration, double price, string details, string tag, string activityname,string image);
 
-        [OperationContract]
-        int DeleteActivity(int id);
+        //[OperationContract]
+        //int DeleteActivity(int id);
 
 
         //Mengxi
+
+        [OperationContract]
+        int CreatePlan(string timecreated, string username, string planname);
+
+        [OperationContract]
+        List<Plan> GetPlanByUsername(string username);
+
+        [OperationContract]
+        int UpdatePlanname(int planid, string planname);
+
+        [OperationContract]
+        int DeletePlan(int planid);
+
+
     }
 
     // Use a data contract as illustrated in the sample below to add composite types to service operations.

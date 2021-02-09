@@ -28,9 +28,9 @@ namespace MyDBService
             }
             return composite;
         }
-        public int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype)
+        public int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype, string verificationcode, string accountstatus)
         {
-            Account emp = new Account(username, email, contactno, passwordhash, passwordsalt, usertype);
+            Account emp = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode, accountstatus);
             return emp.Insert();
         }
         public int CreatePromotion(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend,string code)
@@ -46,6 +46,11 @@ namespace MyDBService
         public int CreatePayment(double cardnumber,int cvv,string date)
         {
             Payment emp = new Payment(cardnumber, cvv, date);
+            return emp.Insert();
+        }
+        public int CreateCart(int quantity, double totalprice, string username, string time, double price, string name, string desc, string image)
+        {
+            Cart emp = new Cart(quantity, totalprice, username, time, price, name, desc, image);
             return emp.Insert();
         }
         public List<Account> GetAllAccount ()
@@ -90,21 +95,39 @@ namespace MyDBService
             return act.UpdateAccountDetails(username,email,contactno);
         }
 
-        public int UpdateAccountPassword(string username, string passwordhash, string passwordsalt)
+        public int UpdateEmail(string username, string email)
         {
             Account act = new Account();
-            return act.UpdatePassword(username, passwordhash,passwordsalt);
+            return act.UpdateEmail(username, email);
         }
 
-        public int UpdateAccountPasswordByEmail(string email, string passwordhash, string passwordsalt)
+        public int UpdateContact(string username, string contactno)
         {
             Account act = new Account();
-            return act.UpdatePasswordByEmail(email, passwordhash, passwordsalt);
+            return act.UpdateContact(username, contactno);
+        }
+
+        public int UpdateAccountPassword(string username, string passwordhash)
+        {
+            Account act = new Account();
+            return act.UpdatePassword(username, passwordhash);
+        }
+
+        public int UpdateAccountPasswordByEmail(string email, string passwordhash)
+        {
+            Account act = new Account();
+            return act.UpdatePasswordByEmail(email, passwordhash);
         }
         public int UpdateUserType(string username, string usertype)
         {
             Account act = new Account();
             return act.UpdateUserType(username,usertype);
+        }
+
+        public int UpdateAccountStatus(string username, string accountstatus)
+        {
+            Account act = new Account();
+            return act.UpdateUserType(username, accountstatus);
         }
         public int UpdateActivity(int id, string duration, double price, string details, string tag, string activityname,string image)
         {
@@ -116,11 +139,11 @@ namespace MyDBService
             Activity act = new Activity();
             return act.SelectById(id);
         }
-        public int DeleteActivity(int id)
-        {
-            Activity act = new Activity();
-            return act.DeleteActivity(id);
-        }
+        //public int deleteactivity(int id)
+        //{
+        //    activity act = new activity();
+        //    return act.deleteactivity(id);
+        //}
         public int UpdateCode(string name, string code)
         {
             Promotion pro = new Promotion();
@@ -160,5 +183,26 @@ namespace MyDBService
             return post.GetPostByUsername(username);
         }
 
+        // Mengxi
+        public int CreatePlan(string timecreated, string username, string planname)
+        {
+            Plan plan = new Plan(timecreated, username, planname);
+            return plan.Insert();
+        }
+        public List<Plan> GetPlanByUsername(string username)
+        {
+            Plan act = new Plan();
+            return act.SelectPlanByUsername(username);
+        }
+        public int UpdatePlanname(int planid, string planname)
+        {
+            Plan act = new Plan();
+            return act.UpdatePlanname(planid, planname);
+        }
+        public int DeletePlan(int planid)
+        {
+            Plan act = new Plan();
+            return act.DeletePlan(planid);
+        }
     }
 }
