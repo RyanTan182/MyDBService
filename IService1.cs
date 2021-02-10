@@ -22,7 +22,7 @@ namespace MyDBService
         int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype, string verificationcode, string accountstatus, string resetpasswordcode, DateTime expirycode);
 
         [OperationContract]
-        int CreatePromotion(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus);
+        int CreatePromotion(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus, int discount);
 
         [OperationContract]
         int CreatePayment(double cardnumber, int cvv, string date);
@@ -100,7 +100,7 @@ namespace MyDBService
         int UpdatePromotionStatusAndCode(string name, string code, string promotionstatus);
 
         [OperationContract]
-        int UpdatePromotionDetails(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus);
+        int UpdatePromotionDetails(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus, int discount);
 
 
         //Uwais Alqarni

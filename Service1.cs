@@ -33,9 +33,9 @@ namespace MyDBService
             Account emp = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode, accountstatus, resetpasswordcode, expirycode);
             return emp.Insert();
         }
-        public int CreatePromotion(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus)
+        public int CreatePromotion(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus, int discount)
         {
-            Promotion emp = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus);
+            Promotion emp = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus , discount);
             return emp.Insert();
         }
         public int CreateActivity(string duration, double price, string details, string tag, string activityname, string image)
@@ -192,10 +192,10 @@ namespace MyDBService
             return pro.UpdatePromotionStatusAndCode(name, code, promotionstatus);
         }
 
-        public int UpdatePromotionDetails(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus)
+        public int UpdatePromotionDetails(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus , int discount)
         {
             Promotion pro = new Promotion();
-            return pro.UpdatePromotionDetails(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus);
+            return pro.UpdatePromotionDetails(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus , discount);
         }
 
         //Uwais Alqarni

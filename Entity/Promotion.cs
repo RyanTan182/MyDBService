@@ -19,8 +19,9 @@ namespace MyDBService.Entity
         public double MinimumSpend { get; set; }
         public string Code { get; set; }
         public string PromotionStatus { get; set; }
+        public int Discount { get; set; } 
 
-        public Promotion(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus)
+        public Promotion(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus, int discount)
         {
             Name = name;
             Overview = overview;
@@ -29,6 +30,7 @@ namespace MyDBService.Entity
             MinimumSpend = minimumspend;
             Code = code;
             PromotionStatus = promotionstatus;
+            Discount = discount;
         }
 
         public Promotion()
@@ -43,8 +45,8 @@ namespace MyDBService.Entity
             SqlConnection myConn = new SqlConnection(DBConnect);
 
             // Step 2 - Create a SqlCommand object to add record with INSERT statement
-            string sqlStmt = "INSERT INTO Promotion (Name, Overview, PromotionImage, ExpiryDate , MinimumSpend, Code , PromotionStatus) " +
-                "VALUES (@paraName, @paraOverview, @paraPromotionImage, @paraExpiryDate, @paraMinimumSpend, @paraCode, @paraPromotionStatus)";
+            string sqlStmt = "INSERT INTO Promotion (Name, Overview, PromotionImage, ExpiryDate , MinimumSpend, Code , PromotionStatus , Discount) " +
+                "VALUES (@paraName, @paraOverview, @paraPromotionImage, @paraExpiryDate, @paraMinimumSpend, @paraCode, @paraPromotionStatus , @paraDiscount)";
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             // Step 3 : Add each parameterised variable with value
@@ -55,6 +57,7 @@ namespace MyDBService.Entity
             sqlCmd.Parameters.AddWithValue("@paraMinimumSpend", MinimumSpend);
             sqlCmd.Parameters.AddWithValue("@paraCode", Code);
             sqlCmd.Parameters.AddWithValue("@paraPromotionStatus", PromotionStatus);
+            sqlCmd.Parameters.AddWithValue("@paraDiscount", Discount);
 
             // Step 4 Open connection the execute NonQuery of sql command   
             myConn.Open();
@@ -95,7 +98,8 @@ namespace MyDBService.Entity
                 double minimumspend = Double.Parse(row["MinimumSpend"].ToString());
                 string code = row["Code"].ToString();
                 string promotionstatus = row["PromotionStatus"].ToString();
-                pro = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus);
+                int discount = Convert.ToInt32(row["Discount"]);
+                pro = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus,discount);
             }
             return pro;
         }
@@ -130,7 +134,8 @@ namespace MyDBService.Entity
                 double minimumspend = Double.Parse(row["MinimumSpend"].ToString());
                 string code = row["Code"].ToString();
                 string promotionstatus = row["PromotionStatus"].ToString();
-                Promotion pro = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus);
+                int discount = Convert.ToInt32(row["Discount"]);
+                Promotion pro = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus,discount);
                 proList.Add(pro);
             }
             return proList;
@@ -167,7 +172,8 @@ namespace MyDBService.Entity
                 DateTime expirydate = Convert.ToDateTime(row["ExpiryDate"].ToString());
                 double minimumspend = Double.Parse(row["MinimumSpend"].ToString());
                 string code = row["Code"].ToString();
-                Promotion pro = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus);
+                int discount = Convert.ToInt32(row["Discount"]);
+                Promotion pro = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus,discount);
                 proList.Add(pro);
             }
             return proList;
@@ -205,7 +211,8 @@ namespace MyDBService.Entity
                 double minimumspend = Double.Parse(row["MinimumSpend"].ToString());
                 string promotionstatus = row["PromotionStatus"].ToString();
                 string code = row["Code"].ToString();
-                Promotion pro = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus);
+                int discount = Convert.ToInt32(row["Discount"]);
+                Promotion pro = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus,discount);
                 proList.Add(pro);
             }
             return proList;
@@ -243,7 +250,8 @@ namespace MyDBService.Entity
                 string promotionstatus = row["PromotionStatus"].ToString();
                 double minimumspend = Double.Parse(row["MinimumSpend"].ToString());
                 string code = row["Code"].ToString();
-                Promotion pro = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus);
+                int discount = Convert.ToInt32(row["Discount"]);
+                Promotion pro = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus,discount);
                 proList.Add(pro);
             }
             return proList;
@@ -304,12 +312,12 @@ namespace MyDBService.Entity
 
             return result;
         }
-        public int UpdatePromotionDetails(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus)
+        public int UpdatePromotionDetails(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus, int discount)
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
 
-            string sqlStmt = "UPDATE Promotion SET Name= @paraName, Overview = @paraOverview, PromotionImage = @paraPromotionImage , ExpiryDate = @paraExpiryDate , MinimumSpend = @paraMinimumSpend , Code = @paraCode , PromotionStatus = @paraPromotionStatus where name =  @paraName";
+            string sqlStmt = "UPDATE Promotion SET Name= @paraName, Overview = @paraOverview, PromotionImage = @paraPromotionImage , ExpiryDate = @paraExpiryDate , MinimumSpend = @paraMinimumSpend , Code = @paraCode , PromotionStatus = @paraPromotionStatus, Discount = @paraDiscount where name =  @paraName";
 
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
 
@@ -320,6 +328,7 @@ namespace MyDBService.Entity
             sqlCmd.Parameters.AddWithValue("@paraMinimumSpend", minimumspend);
             sqlCmd.Parameters.AddWithValue("@paraCode", code);
             sqlCmd.Parameters.AddWithValue("@paraPromotionStatus", promotionstatus);
+            sqlCmd.Parameters.AddWithValue("@paraDiscount", discount);
             myConn.Open();
             int result = sqlCmd.ExecuteNonQuery();
 
