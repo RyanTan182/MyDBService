@@ -97,6 +97,11 @@ namespace MyDBService
             Account act = new Account();
             return act.SelectByEmail(email);
         }
+        public Account GetAccountByEmailAndUsername(string username,string email)
+        {
+            Account act = new Account();
+            return act.SelectByEmailAndUsername(username,email);
+        }
         public Account GetAccountDetail(string username)
         {
             Account act = new Account();

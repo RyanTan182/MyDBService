@@ -147,6 +147,43 @@ namespace MyDBService.Entity
             return act;
         }
 
+        public Account SelectByEmailAndUsername(string username,string email)
+        {
+            //Step 1 -  Define a connection to the database by getting
+            //          the connection string from App.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            //Step 2 -  Create a DataAdapter to retrieve data from the database table
+            string sqlStmt = "Select * from Account where Username<>@paraUsername AND Email=@paraEmail";
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+            da.SelectCommand.Parameters.AddWithValue("@paraEmail", email);
+            da.SelectCommand.Parameters.AddWithValue("@paraUsername", username);
+            //Step 3 -  Create a DataSet to store the data to be retrieved
+            DataSet ds = new DataSet();
+
+            //Step 4 -  Use the DataAdapter to fill the DataSet with data retrieved
+            da.Fill(ds);
+
+            //Step 5 -  Read data from DataSet.
+            Account act = null;
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            if (rec_cnt == 1)
+            {
+                DataRow row = ds.Tables[0].Rows[0];  // Sql command returns only one record
+                string contactno = row["ContactNo"].ToString();
+                string passwordhash = row["PasswordHash"].ToString();
+                string passwordsalt = row["PasswordSalt"].ToString();
+                string usertype = row["UserType"].ToString();
+                string verificationcode = row["VerificationCode"].ToString();
+                string accountstatus = row["AccountStatus"].ToString();
+                string resetpasswordcode = row["ResetPasswordCode"].ToString();
+                DateTime expirycode = Convert.ToDateTime(row["ExpiryCode"]);
+                act = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode, accountstatus, resetpasswordcode, expirycode);
+            }
+            return act;
+        }
+
         public List<Account> SelectAll()
         {
             //Step 1 -  Define a connection to the database by getting

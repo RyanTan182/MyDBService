@@ -54,6 +54,9 @@ namespace MyDBService
         Account GetAccountByEmail(string email);
 
         [OperationContract]
+        Account GetAccountByEmailAndUsername(string username, string email);
+
+        [OperationContract]
         Account GetAccountDetail(string username);
 
         [OperationContract]
