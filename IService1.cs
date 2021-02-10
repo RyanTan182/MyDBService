@@ -82,7 +82,10 @@ namespace MyDBService
         int UpdateUserType(string username, string usertype);
 
         [OperationContract]
-        int UpdateResetPasswordCode(string username, string resetpasswordcode);
+        int UpdateResetPasswordCode(string email, string resetpasswordcode);
+
+        [OperationContract]
+        int UpdateVerificationCode(string username, string verificationcode);
 
         [OperationContract]
         int UpdateExpiryCode(string username, DateTime expirycode);

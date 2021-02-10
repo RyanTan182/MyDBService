@@ -362,17 +362,36 @@ namespace MyDBService.Entity
             return result;
         }
 
-        public int UpdateResetPasswordCode(string username, string resetpasswordcode)
+        public int UpdateResetPasswordCode(string email, string resetpasswordcode)
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
 
-            string sqlStmt = "UPDATE Account SET ResetPasswordCode = @paraResetPasswordCode where username =  @paraUsername";
+            string sqlStmt = "UPDATE Account SET ResetPasswordCode = @paraResetPasswordCode where email =  @paraEmail";
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            sqlCmd.Parameters.AddWithValue("@paraEmail", email);
+            sqlCmd.Parameters.AddWithValue("@paraResetPasswordCode", resetpasswordcode);
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+
+            return result;
+        }
+
+        public int UpdateVerificationCode(string username, string verificationcode)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "UPDATE Account SET VerificationCode = @paraVerificationCode where username =  @paraUsername";
 
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             sqlCmd.Parameters.AddWithValue("@paraUsername", username);
-            sqlCmd.Parameters.AddWithValue("@paraResetPasswordCode", resetpasswordcode);
+            sqlCmd.Parameters.AddWithValue("@paraVerificationCode", verificationcode);
             myConn.Open();
             int result = sqlCmd.ExecuteNonQuery();
 
