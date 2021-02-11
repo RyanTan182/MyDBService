@@ -89,6 +89,11 @@ namespace MyDBService
             Promotion pro = new Promotion();
             return pro.SelectByName(name);
         }
+        public List<Cart> GetAllCart(string username)
+        {
+            Cart car = new Cart();
+            return car.SelectAllByName(username);
+        }
         public int UpdateAccountDetails(string username, string email, string contactno)
         {
             Account act = new Account();
@@ -121,11 +126,16 @@ namespace MyDBService
             Activity act = new Activity();
             return act.SelectById(id);
         }
-        //public int deleteactivity(int id)
-        //{
-        //    activity act = new activity();
-        //    return act.deleteactivity(id);
-        //}
+        public int DeleteActivity(int id)
+        {
+            Activity act = new Activity();
+            return act.DeleteActivity(id);
+        }
+        public int DeleteCart(int hi)
+        {
+            Cart act = new Cart();
+            return act.DeleteCart(hi);
+        }
         public int UpdateCode(string name, string code)
         {
             Promotion pro = new Promotion();

@@ -39,6 +39,8 @@ namespace MyDBService
         List<Activity> GetAllActivity();
 
         [OperationContract]
+        List<Cart> GetAllCart(string username);
+        [OperationContract]
         Account GetAccountByUsername(string username);
 
         [OperationContract]
@@ -53,6 +55,8 @@ namespace MyDBService
 
         [OperationContract]
         Activity SelectById(int id);
+
+        
 
         [OperationContract]
         int UpdateAccountDetails(string username, string email, string contactno);
@@ -94,9 +98,10 @@ namespace MyDBService
         [OperationContract]
         int UpdateActivity(int id,string duration, double price, string details, string tag, string activityname,string image);
 
-        //[OperationContract]
-        //int DeleteActivity(int id);
-
+        [OperationContract]
+        int DeleteActivity(int id);
+        [OperationContract]
+        int DeleteCart(int id);
 
         //Mengxi
 
