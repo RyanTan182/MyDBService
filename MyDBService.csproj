@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E2D49732-B2DC-427E-A145-CB1416A0E145}</ProjectGuid>
+    <ProjectGuid>{D0F7530F-CF5E-460C-B62B-B714B2DD22B2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MyDBService</RootNamespace>
