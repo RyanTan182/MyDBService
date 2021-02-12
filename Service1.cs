@@ -58,6 +58,21 @@ namespace MyDBService
             Account act = new Account();
             return act.SelectAll();
         }
+        public List<Account> GetAllDeletedAccount()
+        {
+            Account act = new Account();
+            return act.SelectAllDeletedAccount();
+        }
+        public List<Account> GetAllStaffAccount()
+        {
+            Account act = new Account();
+            return act.SelectAllStaffAccount();
+        }
+        public List<Account> GetAllCustomerAccount()
+        {
+            Account act = new Account();
+            return act.SelectAllCustomerAccount();
+        }
         public List<Promotion> GetAllPromotion()
         {
             Promotion pro = new Promotion();
@@ -150,6 +165,11 @@ namespace MyDBService
         {
             Account act = new Account();
             return act.UpdateUserType(username, usertype);
+        }
+        public int UpdateUserTypeAndAccountStatus(string username, string usertype, string accountstatus)
+        {
+            Account act = new Account();
+            return act.UpdateUserTypeAndAccountStatus(username, usertype, accountstatus);
         }
 
         public int UpdateResetPasswordCode(string email, string resetpasswordcode)

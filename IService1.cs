@@ -33,6 +33,15 @@ namespace MyDBService
         List<Account> GetAllAccount();
 
         [OperationContract]
+        List<Account> GetAllDeletedAccount();
+
+        [OperationContract]
+        List<Account> GetAllStaffAccount();
+
+        [OperationContract]
+        List<Account> GetAllCustomerAccount();
+
+        [OperationContract]
         List<Promotion> GetAllPromotion();
 
         [OperationContract]
@@ -68,14 +77,15 @@ namespace MyDBService
         [OperationContract]
         Activity SelectById(int id);
 
-        
-
         [OperationContract]
         int UpdateAccountDetails(string username, string email, string contactno);
 
         [OperationContract]
         int UpdateEmail(string username, string email);
 
+        [OperationContract]
+        int UpdateUserTypeAndAccountStatus(string username, string usertype,string accountstatus);
+            
         [OperationContract]
         int UpdateContact(string username, string contactno);
 
