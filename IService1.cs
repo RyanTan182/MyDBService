@@ -89,10 +89,14 @@ namespace MyDBService
 
         [OperationContract]
         int UpdatePromotionStatus(string name, string promotionstatus);
+
         //Uwais Alqarni
 
         [OperationContract]
         List<Post> GetAllPost();
+
+        [OperationContract]
+        List<Post> GetAllPostStaff();
 
         [OperationContract]
         int CreatePost(string title, string image, string type, string location, string description, string username);
@@ -104,7 +108,22 @@ namespace MyDBService
         Post GetAPost(int postID);
 
         [OperationContract]
-        Post GetPostByUsername(string username);
+        List<Post> GetPostByUsername(string username);
+
+        [OperationContract]
+        int DeletePost(int postID);
+
+        [OperationContract]
+        int UpdateBookmark(int postID, Boolean bookmark);
+
+        [OperationContract]
+        Boolean GetBookmark(int postID);
+
+        [OperationContract]
+        int UpdateReport(int postID, int report);
+
+        [OperationContract]
+        int GetReport(int postID);
 
         //Yongsheng
 
