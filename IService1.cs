@@ -78,6 +78,9 @@ namespace MyDBService
         Activity SelectById(int id);
 
         [OperationContract]
+        Activity SelectBySearch(string word);
+
+        [OperationContract]
         int UpdateAccountDetails(string username, string email, string contactno);
 
         [OperationContract]
