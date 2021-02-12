@@ -297,5 +297,10 @@ namespace MyDBService
             Plan act = new Plan();
             return act.DeletePlan(planid);
         }
+        public int AddToPlan(string planid, string activityname, string date, string booked, string qty, double unitprice, double totalprice, string image)
+        {
+            PlanActivity emp = new PlanActivity(planid, activityname, date, booked, qty, unitprice, totalprice, image);
+            return emp.Insert();
+        }
     }
 }

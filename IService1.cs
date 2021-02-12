@@ -169,6 +169,8 @@ namespace MyDBService
 
         [OperationContract]
         int DeletePlan(int planid);
+        [OperationContract]
+        int AddToPlan(string planid, string activityname, string date, string booked, string qty, double unitprice, double totalprice, string image);
 
 
     }
