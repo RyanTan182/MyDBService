@@ -147,6 +147,43 @@ namespace MyDBService.Entity
             return act;
         }
 
+        public Account SelectByEmailAndUsername(string username,string email)
+        {
+            //Step 1 -  Define a connection to the database by getting
+            //          the connection string from App.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            //Step 2 -  Create a DataAdapter to retrieve data from the database table
+            string sqlStmt = "Select * from Account where Username<>@paraUsername AND Email=@paraEmail";
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+            da.SelectCommand.Parameters.AddWithValue("@paraEmail", email);
+            da.SelectCommand.Parameters.AddWithValue("@paraUsername", username);
+            //Step 3 -  Create a DataSet to store the data to be retrieved
+            DataSet ds = new DataSet();
+
+            //Step 4 -  Use the DataAdapter to fill the DataSet with data retrieved
+            da.Fill(ds);
+
+            //Step 5 -  Read data from DataSet.
+            Account act = null;
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            if (rec_cnt == 1)
+            {
+                DataRow row = ds.Tables[0].Rows[0];  // Sql command returns only one record
+                string contactno = row["ContactNo"].ToString();
+                string passwordhash = row["PasswordHash"].ToString();
+                string passwordsalt = row["PasswordSalt"].ToString();
+                string usertype = row["UserType"].ToString();
+                string verificationcode = row["VerificationCode"].ToString();
+                string accountstatus = row["AccountStatus"].ToString();
+                string resetpasswordcode = row["ResetPasswordCode"].ToString();
+                DateTime expirycode = Convert.ToDateTime(row["ExpiryCode"]);
+                act = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode, accountstatus, resetpasswordcode, expirycode);
+            }
+            return act;
+        }
+
         public List<Account> SelectAll()
         {
             //Step 1 -  Define a connection to the database by getting
@@ -181,6 +218,123 @@ namespace MyDBService.Entity
                 string resetpasswordcode = row["ResetPasswordCode"].ToString();
                 DateTime expirycode = Convert.ToDateTime(row["ExpiryCode"]);
                 Account obj = new Account(username, email, contactno, passwordhash, passwordsalt, usertype ,verificationcode,accountstatus, resetpasswordcode , expirycode);
+                actList.Add(obj);
+            }
+            return actList;
+        }
+
+        public List<Account> SelectAllDeletedAccount()
+        {
+            //Step 1 -  Define a connection to the database by getting
+            //          the connection string from App.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            //Step 2 -  Create a DataAdapter object to retrieve data from the database table
+            string sqlStmt = "Select * from Account where UserType='D'";
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+
+            //Step 3 -  Create a DataSet to store the data to be retrieved
+            DataSet ds = new DataSet();
+
+            //Step 4 -  Use the DataAdapter to fill the DataSet with data retrieved
+            da.Fill(ds);
+
+            //Step 5 -  Read data from DataSet to List
+            List<Account> actList = new List<Account>();
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            for (int i = 0; i < rec_cnt; i++)
+            {
+                DataRow row = ds.Tables[0].Rows[i];  // Sql command returns only one record
+                string username = row["Username"].ToString();
+                string email = row["Email"].ToString();
+                string contactno = row["ContactNo"].ToString();
+                string passwordhash = row["PasswordHash"].ToString();
+                string passwordsalt = row["PasswordSalt"].ToString();
+                string usertype = row["UserType"].ToString();
+                string verificationcode = row["VerificationCode"].ToString();
+                string accountstatus = row["AccountStatus"].ToString();
+                string resetpasswordcode = row["ResetPasswordCode"].ToString();
+                DateTime expirycode = Convert.ToDateTime(row["ExpiryCode"]);
+                Account obj = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode, accountstatus, resetpasswordcode, expirycode);
+                actList.Add(obj);
+            }
+            return actList;
+        }
+
+        public List<Account> SelectAllStaffAccount()
+        {
+            //Step 1 -  Define a connection to the database by getting
+            //          the connection string from App.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            //Step 2 -  Create a DataAdapter object to retrieve data from the database table
+            string sqlStmt = "Select * from Account where UserType='S'";
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+
+            //Step 3 -  Create a DataSet to store the data to be retrieved
+            DataSet ds = new DataSet();
+
+            //Step 4 -  Use the DataAdapter to fill the DataSet with data retrieved
+            da.Fill(ds);
+
+            //Step 5 -  Read data from DataSet to List
+            List<Account> actList = new List<Account>();
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            for (int i = 0; i < rec_cnt; i++)
+            {
+                DataRow row = ds.Tables[0].Rows[i];  // Sql command returns only one record
+                string username = row["Username"].ToString();
+                string email = row["Email"].ToString();
+                string contactno = row["ContactNo"].ToString();
+                string passwordhash = row["PasswordHash"].ToString();
+                string passwordsalt = row["PasswordSalt"].ToString();
+                string usertype = row["UserType"].ToString();
+                string verificationcode = row["VerificationCode"].ToString();
+                string accountstatus = row["AccountStatus"].ToString();
+                string resetpasswordcode = row["ResetPasswordCode"].ToString();
+                DateTime expirycode = Convert.ToDateTime(row["ExpiryCode"]);
+                Account obj = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode, accountstatus, resetpasswordcode, expirycode);
+                actList.Add(obj);
+            }
+            return actList;
+        }
+
+        public List<Account> SelectAllCustomerAccount()
+        {
+            //Step 1 -  Define a connection to the database by getting
+            //          the connection string from App.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            //Step 2 -  Create a DataAdapter object to retrieve data from the database table
+            string sqlStmt = "Select * from Account where UserType='C'";
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+
+            //Step 3 -  Create a DataSet to store the data to be retrieved
+            DataSet ds = new DataSet();
+
+            //Step 4 -  Use the DataAdapter to fill the DataSet with data retrieved
+            da.Fill(ds);
+
+            //Step 5 -  Read data from DataSet to List
+            List<Account> actList = new List<Account>();
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            for (int i = 0; i < rec_cnt; i++)
+            {
+                DataRow row = ds.Tables[0].Rows[i];  // Sql command returns only one record
+                string username = row["Username"].ToString();
+                string email = row["Email"].ToString();
+                string contactno = row["ContactNo"].ToString();
+                string passwordhash = row["PasswordHash"].ToString();
+                string passwordsalt = row["PasswordSalt"].ToString();
+                string usertype = row["UserType"].ToString();
+                string verificationcode = row["VerificationCode"].ToString();
+                string accountstatus = row["AccountStatus"].ToString();
+                string resetpasswordcode = row["ResetPasswordCode"].ToString();
+                DateTime expirycode = Convert.ToDateTime(row["ExpiryCode"]);
+                Account obj = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode, accountstatus, resetpasswordcode, expirycode);
                 actList.Add(obj);
             }
             return actList;
@@ -343,6 +497,26 @@ namespace MyDBService.Entity
             return result;
         }
 
+        public int UpdateUserTypeAndAccountStatus(string username, string usertype,string accountstatus)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "UPDATE Account SET usertype = @paraUserType,AccountStatus= @paraAccountStatus where username =  @paraUsername";
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            sqlCmd.Parameters.AddWithValue("@paraUsername", username);
+            sqlCmd.Parameters.AddWithValue("@paraUserType", usertype);
+            sqlCmd.Parameters.AddWithValue("@paraAccountStatus", accountstatus);
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+
+            return result;
+        }
+
         public int UpdateExpiryCode(string username, DateTime expirycode)
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
@@ -362,17 +536,36 @@ namespace MyDBService.Entity
             return result;
         }
 
-        public int UpdateResetPasswordCode(string username, string resetpasswordcode)
+        public int UpdateResetPasswordCode(string email, string resetpasswordcode)
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
 
-            string sqlStmt = "UPDATE Account SET ResetPasswordCode = @paraResetPasswordCode where username =  @paraUsername";
+            string sqlStmt = "UPDATE Account SET ResetPasswordCode = @paraResetPasswordCode where email =  @paraEmail";
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            sqlCmd.Parameters.AddWithValue("@paraEmail", email);
+            sqlCmd.Parameters.AddWithValue("@paraResetPasswordCode", resetpasswordcode);
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+
+            return result;
+        }
+
+        public int UpdateVerificationCode(string username, string verificationcode)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "UPDATE Account SET VerificationCode = @paraVerificationCode where username =  @paraUsername";
 
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             sqlCmd.Parameters.AddWithValue("@paraUsername", username);
-            sqlCmd.Parameters.AddWithValue("@paraResetPasswordCode", resetpasswordcode);
+            sqlCmd.Parameters.AddWithValue("@paraVerificationCode", verificationcode);
             myConn.Open();
             int result = sqlCmd.ExecuteNonQuery();
 

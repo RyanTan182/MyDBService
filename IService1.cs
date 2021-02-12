@@ -19,18 +19,27 @@ namespace MyDBService
         CompositeType GetDataUsingDataContract(CompositeType composite);
 
         [OperationContract]
-        int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype , string verificationcode, string accountstatus , string resetpasswordcode, DateTime expirycode);
+        int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype, string verificationcode, string accountstatus, string resetpasswordcode, DateTime expirycode);
 
         [OperationContract]
-        int CreatePromotion(string name,string overview, string promotionimage, DateTime expirydate, double minimumspend, string code , string promotionstatus);
+        int CreatePromotion(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus, int discount);
 
         [OperationContract]
         int CreatePayment(double cardnumber, int cvv, string date);
 
         [OperationContract]
-        int CreateCart(int quantity,double totalprice,string username, string time, double price, string name, string desc, string image);
+        int CreateCart(int quantity, double totalprice, string username, string time, double price, string name, string desc, string image);
         [OperationContract]
         List<Account> GetAllAccount();
+
+        [OperationContract]
+        List<Account> GetAllDeletedAccount();
+
+        [OperationContract]
+        List<Account> GetAllStaffAccount();
+
+        [OperationContract]
+        List<Account> GetAllCustomerAccount();
 
         [OperationContract]
         List<Promotion> GetAllPromotion();
@@ -39,13 +48,24 @@ namespace MyDBService
         List<Promotion> GetAllPromotionsByPromotionStatus(string promotionstatus);
 
         [OperationContract]
+        List<Promotion> GetAllAvailablePromotions();
+
+        [OperationContract]
+        List<Promotion> GetAllExpiredPromotion();
+
+        [OperationContract]
         List<Activity> GetAllActivity();
 
+        [OperationContract]
+        List<Cart> GetAllCart(string username);
         [OperationContract]
         Account GetAccountByUsername(string username);
 
         [OperationContract]
         Account GetAccountByEmail(string email);
+
+        [OperationContract]
+        Account GetAccountByEmailAndUsername(string username, string email);
 
         [OperationContract]
         Account GetAccountDetail(string username);
@@ -58,11 +78,17 @@ namespace MyDBService
         Activity SelectById(int id);
 
         [OperationContract]
+        List<Activity> SelectBySearch(string word);
+
+        [OperationContract]
         int UpdateAccountDetails(string username, string email, string contactno);
 
         [OperationContract]
         int UpdateEmail(string username, string email);
 
+        [OperationContract]
+        int UpdateUserTypeAndAccountStatus(string username, string usertype,string accountstatus);
+            
         [OperationContract]
         int UpdateContact(string username, string contactno);
 
@@ -76,10 +102,13 @@ namespace MyDBService
         int UpdateUserType(string username, string usertype);
 
         [OperationContract]
-        int UpdateResetPasswordCode(string username, string resetpasswordcode);
+        int UpdateResetPasswordCode(string email, string resetpasswordcode);
 
         [OperationContract]
-        int UpdateExpiryCode(string username, DateTime expirycode); 
+        int UpdateVerificationCode(string username, string verificationcode);
+
+        [OperationContract]
+        int UpdateExpiryCode(string username, DateTime expirycode);
 
         [OperationContract]
         int UpdateAccountStatus(string username, string accountstatus);
@@ -89,6 +118,14 @@ namespace MyDBService
 
         [OperationContract]
         int UpdatePromotionStatus(string name, string promotionstatus);
+
+
+        [OperationContract]
+        int UpdatePromotionStatusAndCode(string name, string code, string promotionstatus);
+
+        [OperationContract]
+        int UpdatePromotionDetails(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus, int discount);
+
 
         //Uwais Alqarni
 
@@ -128,14 +165,15 @@ namespace MyDBService
         //Yongsheng
 
         [OperationContract]
-        int CreateActivity(string duration, double price, string details, string tag, string activityname,string image);
+        int CreateActivity(string duration, double price, string details, string tag, string activityname, string image);
 
         [OperationContract]
-        int UpdateActivity(int id,string duration, double price, string details, string tag, string activityname,string image);
+        int UpdateActivity(int id, string duration, double price, string details, string tag, string activityname, string image);
 
-        //[OperationContract]
-        //int DeleteActivity(int id);
-
+        [OperationContract]
+        int DeleteActivity(int id);
+        [OperationContract]
+        int DeleteCart(int id);
 
         //Mengxi
 
@@ -150,6 +188,8 @@ namespace MyDBService
 
         [OperationContract]
         int DeletePlan(int planid);
+        [OperationContract]
+        int AddToPlan(string planid, string activityname, string date, string booked, string qty, double unitprice, double totalprice, string image);
 
 
     }

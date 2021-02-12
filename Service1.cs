@@ -30,20 +30,20 @@ namespace MyDBService
         }
         public int CreateAccount(string username, string email, string contactno, string passwordhash, string passwordsalt, string usertype, string verificationcode, string accountstatus, string resetpasswordcode, DateTime expirycode)
         {
-            Account emp = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode, accountstatus , resetpasswordcode , expirycode);
+            Account emp = new Account(username, email, contactno, passwordhash, passwordsalt, usertype, verificationcode, accountstatus, resetpasswordcode, expirycode);
             return emp.Insert();
         }
-        public int CreatePromotion(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend,string code,string promotionstatus)
+        public int CreatePromotion(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus, int discount)
         {
-            Promotion emp = new Promotion(name, overview, promotionimage, expirydate, minimumspend,code,promotionstatus);
+            Promotion emp = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus , discount);
             return emp.Insert();
         }
-        public int CreateActivity(string duration, double price, string details, string tag, string activityname,string image)
+        public int CreateActivity(string duration, double price, string details, string tag, string activityname, string image)
         {
-            Activity emp = new Activity(duration, price, details, tag, activityname,image);
+            Activity emp = new Activity(duration, price, details, tag, activityname, image);
             return emp.Insert();
         }
-        public int CreatePayment(double cardnumber,int cvv,string date)
+        public int CreatePayment(double cardnumber, int cvv, string date)
         {
             Payment emp = new Payment(cardnumber, cvv, date);
             return emp.Insert();
@@ -53,10 +53,25 @@ namespace MyDBService
             Cart emp = new Cart(quantity, totalprice, username, time, price, name, desc, image);
             return emp.Insert();
         }
-        public List<Account> GetAllAccount ()
+        public List<Account> GetAllAccount()
         {
-            Account act=new Account();
+            Account act = new Account();
             return act.SelectAll();
+        }
+        public List<Account> GetAllDeletedAccount()
+        {
+            Account act = new Account();
+            return act.SelectAllDeletedAccount();
+        }
+        public List<Account> GetAllStaffAccount()
+        {
+            Account act = new Account();
+            return act.SelectAllStaffAccount();
+        }
+        public List<Account> GetAllCustomerAccount()
+        {
+            Account act = new Account();
+            return act.SelectAllCustomerAccount();
         }
         public List<Promotion> GetAllPromotion()
         {
@@ -69,10 +84,27 @@ namespace MyDBService
             Promotion pro = new Promotion();
             return pro.SelectAllbyPromotionStatus(promotionstatus);
         }
+
+        public List<Promotion> GetAllAvailablePromotions()
+        {
+            Promotion pro = new Promotion();
+            return pro.SelectAllAvailablePromotion();
+        }
+
+        public List<Promotion> GetAllExpiredPromotion()
+        {
+            Promotion pro = new Promotion();
+            return pro.SelectAllExpiredPromotion();
+        }
         public List<Activity> GetAllActivity()
         {
             Activity act = new Activity();
             return act.SelectAll();
+        }
+        public List<Activity> SelectBySearch(string word)
+        {
+            Activity act = new Activity();
+            return act.SelectBySearch(word);
         }
         public Account GetAccountByUsername(string username)
         {
@@ -85,6 +117,11 @@ namespace MyDBService
             Account act = new Account();
             return act.SelectByEmail(email);
         }
+        public Account GetAccountByEmailAndUsername(string username,string email)
+        {
+            Account act = new Account();
+            return act.SelectByEmailAndUsername(username,email);
+        }
         public Account GetAccountDetail(string username)
         {
             Account act = new Account();
@@ -95,10 +132,15 @@ namespace MyDBService
             Promotion pro = new Promotion();
             return pro.SelectByName(name);
         }
+        public List<Cart> GetAllCart(string username)
+        {
+            Cart car = new Cart();
+            return car.SelectAllByName(username);
+        }
         public int UpdateAccountDetails(string username, string email, string contactno)
         {
             Account act = new Account();
-            return act.UpdateAccountDetails(username,email,contactno);
+            return act.UpdateAccountDetails(username, email, contactno);
         }
 
         public int UpdateEmail(string username, string email)
@@ -127,13 +169,18 @@ namespace MyDBService
         public int UpdateUserType(string username, string usertype)
         {
             Account act = new Account();
-            return act.UpdateUserType(username,usertype);
+            return act.UpdateUserType(username, usertype);
         }
-
-        public int UpdateResetPasswordCode(string username, string resetpasswordcode)
+        public int UpdateUserTypeAndAccountStatus(string username, string usertype, string accountstatus)
         {
             Account act = new Account();
-            return act.UpdateResetPasswordCode(username, resetpasswordcode);
+            return act.UpdateUserTypeAndAccountStatus(username, usertype, accountstatus);
+        }
+
+        public int UpdateResetPasswordCode(string email, string resetpasswordcode)
+        {
+            Account act = new Account();
+            return act.UpdateResetPasswordCode(email, resetpasswordcode);
         }
 
         public int UpdateExpiryCode(string username, DateTime expirycode)
@@ -142,26 +189,37 @@ namespace MyDBService
             return act.UpdateExpiryCode(username, expirycode);
         }
 
+        public int UpdateVerificationCode(string username, string verificationcode)
+        {
+            Account act = new Account();
+            return act.UpdateVerificationCode(username, verificationcode);
+        }
+
         public int UpdateAccountStatus(string username, string accountstatus)
         {
             Account act = new Account();
             return act.UpdateAccountStatus(username, accountstatus);
         }
-        public int UpdateActivity(int id, string duration, double price, string details, string tag, string activityname,string image)
+        public int UpdateActivity(int id, string duration, double price, string details, string tag, string activityname, string image)
         {
             Activity act = new Activity();
-            return act.UpdateActivity(id,duration,price,details,tag,activityname,image);
+            return act.UpdateActivity(id, duration, price, details, tag, activityname, image);
         }
         public Activity SelectById(int id)
         {
             Activity act = new Activity();
             return act.SelectById(id);
         }
-        //public int deleteactivity(int id)
-        //{
-        //    activity act = new activity();
-        //    return act.deleteactivity(id);
-        //}
+        public int DeleteActivity(int id)
+        {
+            Activity act = new Activity();
+            return act.DeleteActivity(id);
+        }
+        public int DeleteCart(int hi)
+        {
+            Cart act = new Cart();
+            return act.DeleteCart(hi);
+        }
         public int UpdateCode(string name, string code)
         {
             Promotion pro = new Promotion();
@@ -174,6 +232,17 @@ namespace MyDBService
             return pro.UpdateCode(name, promotionstatus);
         }
 
+        public int UpdatePromotionStatusAndCode(string name, string code, string promotionstatus)
+        {
+            Promotion pro = new Promotion();
+            return pro.UpdatePromotionStatusAndCode(name, code, promotionstatus);
+        }
+
+        public int UpdatePromotionDetails(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus , int discount)
+        {
+            Promotion pro = new Promotion();
+            return pro.UpdatePromotionDetails(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus , discount);
+        }
 
         //Uwais Alqarni
 
@@ -256,6 +325,11 @@ namespace MyDBService
         {
             Plan act = new Plan();
             return act.DeletePlan(planid);
+        }
+        public int AddToPlan(string planid, string activityname, string date, string booked, string qty, double unitprice, double totalprice, string image)
+        {
+            PlanActivity emp = new PlanActivity(planid, activityname, date, booked, qty, unitprice, totalprice, image);
+            return emp.Insert();
         }
     }
 }

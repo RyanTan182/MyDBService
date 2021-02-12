@@ -12,15 +12,16 @@ namespace MyDBService.Entity
     public class Promotion
     {
 
-        public string Name { get; set; }    
+        public string Name { get; set; }
         public string Overview { get; set; }
         public string PromotionImage { get; set; }
         public DateTime ExpiryDate { get; set; }
         public double MinimumSpend { get; set; }
         public string Code { get; set; }
         public string PromotionStatus { get; set; }
+        public int Discount { get; set; } 
 
-        public Promotion(string name,string overview, string promotionimage, DateTime expirydate,double minimumspend,string code , string promotionstatus)
+        public Promotion(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus, int discount)
         {
             Name = name;
             Overview = overview;
@@ -29,9 +30,10 @@ namespace MyDBService.Entity
             MinimumSpend = minimumspend;
             Code = code;
             PromotionStatus = promotionstatus;
+            Discount = discount;
         }
 
-        public Promotion() 
+        public Promotion()
         {
         }
 
@@ -43,8 +45,8 @@ namespace MyDBService.Entity
             SqlConnection myConn = new SqlConnection(DBConnect);
 
             // Step 2 - Create a SqlCommand object to add record with INSERT statement
-            string sqlStmt = "INSERT INTO Promotion (Name, Overview, PromotionImage, ExpiryDate , MinimumSpend, Code , PromotionStatus) " +
-                "VALUES (@paraName, @paraOverview, @paraPromotionImage, @paraExpiryDate, @paraMinimumSpend, @paraCode, @paraPromotionStatus)";
+            string sqlStmt = "INSERT INTO Promotion (Name, Overview, PromotionImage, ExpiryDate , MinimumSpend, Code , PromotionStatus , Discount) " +
+                "VALUES (@paraName, @paraOverview, @paraPromotionImage, @paraExpiryDate, @paraMinimumSpend, @paraCode, @paraPromotionStatus , @paraDiscount)";
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             // Step 3 : Add each parameterised variable with value
@@ -55,6 +57,7 @@ namespace MyDBService.Entity
             sqlCmd.Parameters.AddWithValue("@paraMinimumSpend", MinimumSpend);
             sqlCmd.Parameters.AddWithValue("@paraCode", Code);
             sqlCmd.Parameters.AddWithValue("@paraPromotionStatus", PromotionStatus);
+            sqlCmd.Parameters.AddWithValue("@paraDiscount", Discount);
 
             // Step 4 Open connection the execute NonQuery of sql command   
             myConn.Open();
@@ -95,7 +98,8 @@ namespace MyDBService.Entity
                 double minimumspend = Double.Parse(row["MinimumSpend"].ToString());
                 string code = row["Code"].ToString();
                 string promotionstatus = row["PromotionStatus"].ToString();
-                pro = new Promotion(name, overview,promotionimage, expirydate, minimumspend,code,promotionstatus);
+                int discount = Convert.ToInt32(row["Discount"]);
+                pro = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus,discount);
             }
             return pro;
         }
@@ -130,7 +134,8 @@ namespace MyDBService.Entity
                 double minimumspend = Double.Parse(row["MinimumSpend"].ToString());
                 string code = row["Code"].ToString();
                 string promotionstatus = row["PromotionStatus"].ToString();
-                Promotion pro = new Promotion(name, overview,promotionimage, expirydate, minimumspend,code,promotionstatus);
+                int discount = Convert.ToInt32(row["Discount"]);
+                Promotion pro = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus,discount);
                 proList.Add(pro);
             }
             return proList;
@@ -167,7 +172,86 @@ namespace MyDBService.Entity
                 DateTime expirydate = Convert.ToDateTime(row["ExpiryDate"].ToString());
                 double minimumspend = Double.Parse(row["MinimumSpend"].ToString());
                 string code = row["Code"].ToString();
-                Promotion pro = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus);
+                int discount = Convert.ToInt32(row["Discount"]);
+                Promotion pro = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus,discount);
+                proList.Add(pro);
+            }
+            return proList;
+        }
+
+        public List<Promotion> SelectAllAvailablePromotion()
+        {
+            //Step 1 -  Define a connection to the database by getting
+            //          the connection string from App.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            //Step 2 -  Create a DataAdapter object to retrieve data from the database table
+            string sqlStmt = "Select * from Promotion where PromotionStatus='Available'";
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+            //da.SelectCommand.Parameters.AddWithValue("@paraPromotionStatus", promotionstatus);
+
+            //Step 3 -  Create a DataSet to store the data to be retrieved
+            DataSet ds = new DataSet();
+
+            //Step 4 -  Use the DataAdapter to fill the DataSet with data retrieved
+            da.Fill(ds);
+
+            //Step 5 -  Read data from DataSet to List
+            List<Promotion> proList = new List<Promotion>();
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            for (int i = 0; i < rec_cnt; i++)
+            {
+                DataRow row = ds.Tables[0].Rows[i];  // Sql command returns only one record
+                int id = int.Parse(row["PromotionID"].ToString());
+                string name = row["Name"].ToString();
+                string overview = row["Overview"].ToString();
+                string promotionimage = row["PromotionImage"].ToString();
+                DateTime expirydate = Convert.ToDateTime(row["ExpiryDate"].ToString());
+                double minimumspend = Double.Parse(row["MinimumSpend"].ToString());
+                string promotionstatus = row["PromotionStatus"].ToString();
+                string code = row["Code"].ToString();
+                int discount = Convert.ToInt32(row["Discount"]);
+                Promotion pro = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus,discount);
+                proList.Add(pro);
+            }
+            return proList;
+        }
+
+        public List<Promotion> SelectAllExpiredPromotion()
+        {
+            //Step 1 -  Define a connection to the database by getting
+            //          the connection string from App.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            //Step 2 -  Create a DataAdapter object to retrieve data from the database table
+            string sqlStmt = "Select * from Promotion where PromotionStatus='Expired'";
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+            //da.SelectCommand.Parameters.AddWithValue("@paraPromotionStatus", promotionstatus);
+
+            //Step 3 -  Create a DataSet to store the data to be retrieved
+            DataSet ds = new DataSet();
+
+            //Step 4 -  Use the DataAdapter to fill the DataSet with data retrieved
+            da.Fill(ds);
+
+            //Step 5 -  Read data from DataSet to List
+            List<Promotion> proList = new List<Promotion>();
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            for (int i = 0; i < rec_cnt; i++)
+            {
+                DataRow row = ds.Tables[0].Rows[i];  // Sql command returns only one record
+                int id = int.Parse(row["PromotionID"].ToString());
+                string name = row["Name"].ToString();
+                string overview = row["Overview"].ToString();
+                string promotionimage = row["PromotionImage"].ToString();
+                DateTime expirydate = Convert.ToDateTime(row["ExpiryDate"].ToString());
+                string promotionstatus = row["PromotionStatus"].ToString();
+                double minimumspend = Double.Parse(row["MinimumSpend"].ToString());
+                string code = row["Code"].ToString();
+                int discount = Convert.ToInt32(row["Discount"]);
+                Promotion pro = new Promotion(name, overview, promotionimage, expirydate, minimumspend, code, promotionstatus,discount);
                 proList.Add(pro);
             }
             return proList;
@@ -201,6 +285,50 @@ namespace MyDBService.Entity
 
             sqlCmd.Parameters.AddWithValue("@paraName", name);
             sqlCmd.Parameters.AddWithValue("@paraPromotionStatus", promotionstatus);
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+
+            return result;
+        }
+
+        public int UpdatePromotionStatusAndCode(string name, string code, string promotionstatus)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "UPDATE Promotion SET PromotionStatus = @paraPromotionStatus, Code = @paraCode where name =  @paraName";
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            sqlCmd.Parameters.AddWithValue("@paraName", name);
+            sqlCmd.Parameters.AddWithValue("@paraPromotionStatus", promotionstatus);
+            sqlCmd.Parameters.AddWithValue("@paraCode", code);
+            myConn.Open();
+            int result = sqlCmd.ExecuteNonQuery();
+
+            myConn.Close();
+
+            return result;
+        }
+        public int UpdatePromotionDetails(string name, string overview, string promotionimage, DateTime expirydate, double minimumspend, string code, string promotionstatus, int discount)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "UPDATE Promotion SET Name= @paraName, Overview = @paraOverview, PromotionImage = @paraPromotionImage , ExpiryDate = @paraExpiryDate , MinimumSpend = @paraMinimumSpend , Code = @paraCode , PromotionStatus = @paraPromotionStatus, Discount = @paraDiscount where name =  @paraName";
+
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            sqlCmd.Parameters.AddWithValue("@paraName", name);
+            sqlCmd.Parameters.AddWithValue("@paraOverview", overview);
+            sqlCmd.Parameters.AddWithValue("@paraPromotionImage", promotionimage);
+            sqlCmd.Parameters.AddWithValue("@paraExpiryDate", expirydate);
+            sqlCmd.Parameters.AddWithValue("@paraMinimumSpend", minimumspend);
+            sqlCmd.Parameters.AddWithValue("@paraCode", code);
+            sqlCmd.Parameters.AddWithValue("@paraPromotionStatus", promotionstatus);
+            sqlCmd.Parameters.AddWithValue("@paraDiscount", discount);
             myConn.Open();
             int result = sqlCmd.ExecuteNonQuery();
 
