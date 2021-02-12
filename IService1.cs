@@ -33,6 +33,15 @@ namespace MyDBService
         List<Account> GetAllAccount();
 
         [OperationContract]
+        List<Account> GetAllDeletedAccount();
+
+        [OperationContract]
+        List<Account> GetAllStaffAccount();
+
+        [OperationContract]
+        List<Account> GetAllCustomerAccount();
+
+        [OperationContract]
         List<Promotion> GetAllPromotion();
 
         [OperationContract]
@@ -48,10 +57,15 @@ namespace MyDBService
         List<Activity> GetAllActivity();
 
         [OperationContract]
+        List<Cart> GetAllCart(string username);
+        [OperationContract]
         Account GetAccountByUsername(string username);
 
         [OperationContract]
         Account GetAccountByEmail(string email);
+
+        [OperationContract]
+        Account GetAccountByEmailAndUsername(string username, string email);
 
         [OperationContract]
         Account GetAccountDetail(string username);
@@ -64,11 +78,17 @@ namespace MyDBService
         Activity SelectById(int id);
 
         [OperationContract]
+        Activity SelectBySearch(string word);
+
+        [OperationContract]
         int UpdateAccountDetails(string username, string email, string contactno);
 
         [OperationContract]
         int UpdateEmail(string username, string email);
 
+        [OperationContract]
+        int UpdateUserTypeAndAccountStatus(string username, string usertype,string accountstatus);
+            
         [OperationContract]
         int UpdateContact(string username, string contactno);
 
@@ -82,7 +102,10 @@ namespace MyDBService
         int UpdateUserType(string username, string usertype);
 
         [OperationContract]
-        int UpdateResetPasswordCode(string username, string resetpasswordcode);
+        int UpdateResetPasswordCode(string email, string resetpasswordcode);
+
+        [OperationContract]
+        int UpdateVerificationCode(string username, string verificationcode);
 
         [OperationContract]
         int UpdateExpiryCode(string username, DateTime expirycode);
@@ -128,9 +151,10 @@ namespace MyDBService
         [OperationContract]
         int UpdateActivity(int id, string duration, double price, string details, string tag, string activityname, string image);
 
-        //[OperationContract]
-        //int DeleteActivity(int id);
-
+        [OperationContract]
+        int DeleteActivity(int id);
+        [OperationContract]
+        int DeleteCart(int id);
 
         //Mengxi
 

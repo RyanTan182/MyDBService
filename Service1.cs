@@ -58,6 +58,21 @@ namespace MyDBService
             Account act = new Account();
             return act.SelectAll();
         }
+        public List<Account> GetAllDeletedAccount()
+        {
+            Account act = new Account();
+            return act.SelectAllDeletedAccount();
+        }
+        public List<Account> GetAllStaffAccount()
+        {
+            Account act = new Account();
+            return act.SelectAllStaffAccount();
+        }
+        public List<Account> GetAllCustomerAccount()
+        {
+            Account act = new Account();
+            return act.SelectAllCustomerAccount();
+        }
         public List<Promotion> GetAllPromotion()
         {
             Promotion pro = new Promotion();
@@ -86,6 +101,11 @@ namespace MyDBService
             Activity act = new Activity();
             return act.SelectAll();
         }
+        public List<Activity> SelectBySearch(string word)
+        {
+            Activity act = new Activity();
+            return act.SelectBySearch(word);
+        }
         public Account GetAccountByUsername(string username)
         {
             Account act = new Account();
@@ -97,6 +117,11 @@ namespace MyDBService
             Account act = new Account();
             return act.SelectByEmail(email);
         }
+        public Account GetAccountByEmailAndUsername(string username,string email)
+        {
+            Account act = new Account();
+            return act.SelectByEmailAndUsername(username,email);
+        }
         public Account GetAccountDetail(string username)
         {
             Account act = new Account();
@@ -106,6 +131,11 @@ namespace MyDBService
         {
             Promotion pro = new Promotion();
             return pro.SelectByName(name);
+        }
+        public List<Cart> GetAllCart(string username)
+        {
+            Cart car = new Cart();
+            return car.SelectAllByName(username);
         }
         public int UpdateAccountDetails(string username, string email, string contactno)
         {
@@ -141,17 +171,28 @@ namespace MyDBService
             Account act = new Account();
             return act.UpdateUserType(username, usertype);
         }
-
-        public int UpdateResetPasswordCode(string username, string resetpasswordcode)
+        public int UpdateUserTypeAndAccountStatus(string username, string usertype, string accountstatus)
         {
             Account act = new Account();
-            return act.UpdateResetPasswordCode(username, resetpasswordcode);
+            return act.UpdateUserTypeAndAccountStatus(username, usertype, accountstatus);
+        }
+
+        public int UpdateResetPasswordCode(string email, string resetpasswordcode)
+        {
+            Account act = new Account();
+            return act.UpdateResetPasswordCode(email, resetpasswordcode);
         }
 
         public int UpdateExpiryCode(string username, DateTime expirycode)
         {
             Account act = new Account();
             return act.UpdateExpiryCode(username, expirycode);
+        }
+
+        public int UpdateVerificationCode(string username, string verificationcode)
+        {
+            Account act = new Account();
+            return act.UpdateVerificationCode(username, verificationcode);
         }
 
         public int UpdateAccountStatus(string username, string accountstatus)
@@ -169,11 +210,16 @@ namespace MyDBService
             Activity act = new Activity();
             return act.SelectById(id);
         }
-        //public int deleteactivity(int id)
-        //{
-        //    activity act = new activity();
-        //    return act.deleteactivity(id);
-        //}
+        public int DeleteActivity(int id)
+        {
+            Activity act = new Activity();
+            return act.DeleteActivity(id);
+        }
+        public int DeleteCart(int hi)
+        {
+            Cart act = new Cart();
+            return act.DeleteCart(hi);
+        }
         public int UpdateCode(string name, string code)
         {
             Promotion pro = new Promotion();
