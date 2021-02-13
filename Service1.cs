@@ -91,6 +91,11 @@ namespace MyDBService
             Activity act = new Activity();
             return act.SelectBySearch(word);
         }
+        public List<Activity> SelectByTag(string word)
+        {
+            Activity act = new Activity();
+            return act.SelectByTag(word);
+        }
         public Account GetAccountByUsername(string username)
         {
             Account act = new Account();

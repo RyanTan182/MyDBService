@@ -69,7 +69,7 @@ namespace MyDBService
         Activity SelectById(int id);
 
         [OperationContract]
-        Activity SelectBySearch(string word);
+        List<Activity> SelectBySearch(string word);
 
         [OperationContract]
         int UpdateAccountDetails(string username, string email, string contactno);
@@ -143,6 +143,8 @@ namespace MyDBService
         int DeleteActivity(int id);
         [OperationContract]
         int DeleteCart(int id);
+        [OperationContract]
+        List<Activity> SelectByTag(string word);
 
         //Mengxi
 
