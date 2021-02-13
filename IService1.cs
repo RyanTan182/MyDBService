@@ -174,6 +174,9 @@ namespace MyDBService
         [OperationContract]
         string GetBookmarkedBy(int postID);
 
+        [OperationContract]
+        List<Post> GetAllBookmark(string username);
+
         //Yongsheng
 
         [OperationContract]

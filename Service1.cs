@@ -324,6 +324,11 @@ namespace MyDBService
             Post post = new Post();
             return post.GetBookmarkedBy(postID);
         }
+        public List<Post> GetAllBookmark(string username)
+        {
+            Post post = new Post();
+            return post.SelectAllBookmark(username);
+        }
 
         // Mengxi
         public int CreatePlan(string timecreated, string username, string planname)

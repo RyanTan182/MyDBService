@@ -75,7 +75,7 @@ namespace MyDBService.Entity
             string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
             SqlConnection postConn = new SqlConnection(DBConnect);
 
-            string sqlStmt = "Select * from Post";
+            string sqlStmt = "Select * from Post ORDER BY PostID DESC";
             SqlDataAdapter da = new SqlDataAdapter(sqlStmt, postConn);
 
             DataSet ds = new DataSet();
@@ -229,11 +229,12 @@ namespace MyDBService.Entity
 
             da.Fill(ds);
 
-            List<Post> post = new List<Post>();
+            List<Post> postList = new List<Post>();
             int rec_cnt = ds.Tables[0].Rows.Count;
             for (int i = 0; i < rec_cnt; i++)
             {
-                DataRow row = ds.Tables[0].Rows[0];
+                DataRow row = ds.Tables[0].Rows[i];  
+
                 string title = row["Title"].ToString();
                 string image = row["Image"].ToString();
                 string type = row["Type"].ToString();
@@ -247,10 +248,46 @@ namespace MyDBService.Entity
                 Post postItem = new Post(title, image, type, location, description, report, bookmark, username, userReported, bookmarkedBy);
 
                 postItem.PostID = Convert.ToInt32(row["PostID"]);
-                post.Add(postItem);
+                postList.Add(postItem);
             }
-            return post;
+            return postList;
         }
+
+        //public List<Post> GetPostByUsername(string username)
+        //{
+        //    string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+        //    SqlConnection myConn = new SqlConnection(DBConnect);
+
+        //    string sqlStmt = "Select * from Post where Username=@paraUsername";
+        //    SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+        //    da.SelectCommand.Parameters.AddWithValue("@paraUsername", username);
+
+        //    DataSet ds = new DataSet();
+
+        //    da.Fill(ds);
+
+        //    List<Post> post = new List<Post>();
+        //    int rec_cnt = ds.Tables[0].Rows.Count;
+        //    for (int i = 0; i < rec_cnt; i++)
+        //    {
+        //        DataRow row = ds.Tables[0].Rows[i];
+        //        string title = row["Title"].ToString();
+        //        string image = row["Image"].ToString();
+        //        string type = row["Type"].ToString();
+        //        string location = row["Location"].ToString();
+        //        string description = row["Description"].ToString();
+        //        string str_report = row["Report"].ToString();
+        //        int report = Convert.ToInt32(str_report);
+        //        Boolean bookmark = Convert.ToBoolean(row["Bookmark"]);
+        //        string userReported = row["UserReported"].ToString();
+        //        string bookmarkedBy = row["BookmarkedBy"].ToString();
+        //        Post postItem = new Post(title, image, type, location, description, report, bookmark, username, userReported, bookmarkedBy);
+
+        //        postItem.PostID = Convert.ToInt32(row["PostID"]);
+        //        post.Add(postItem);
+        //    }
+        //    return post;
+        //}
 
         public int DeletePost(int id)
         {
@@ -444,6 +481,42 @@ namespace MyDBService.Entity
                 bookmarkedBy = row["BookmarkedBy"].ToString();
             }
             return bookmarkedBy;
+        }
+
+        public List<Post> SelectAllBookmark(string username)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection postConn = new SqlConnection(DBConnect);
+
+
+            string sqlStmt = "Select * from Post where CONTAINS(BookmarkedBy, '"+ username +"')";
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, postConn);
+
+            DataSet ds = new DataSet();
+
+            da.Fill(ds);
+
+            List<Post> postList = new List<Post>();
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            for (int i = 0; i < rec_cnt; i++)
+            {
+                DataRow row = ds.Tables[0].Rows[i];
+                string title = row["Title"].ToString();
+                string image = row["Image"].ToString();
+                string type = row["Type"].ToString();
+                string location = row["Location"].ToString();
+                string description = row["Description"].ToString();
+                string str_report = row["Report"].ToString();
+                int report = Convert.ToInt32(str_report);
+                Boolean bookmark = Convert.ToBoolean(row["Bookmark"]);
+                string userReported = row["UserReported"].ToString();
+                string bookmarkedBy = row["BookmarkedBy"].ToString();
+
+                Post obj = new Post(title, image, type, location, description, report, bookmark, username, userReported, bookmarkedBy);
+                obj.PostID = Convert.ToInt32(row["PostID"]);
+                postList.Add(obj);
+            }
+            return postList;
         }
 
     }
