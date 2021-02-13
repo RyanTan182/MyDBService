@@ -169,7 +169,48 @@ namespace MyDBService.Entity
             SqlConnection myConn = new SqlConnection(DBConnect);
 
             //Step 2 -  Create a DataAdapter object to retrieve data from the database table
-            string sqlStmt = "select * from Activity where ActivityName like '" + word + "%'";
+            string sqlStmt = "select * from Activity where ActivityName like '%" + word + "%'";
+            
+
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+
+            //Step 3 -  Create a DataSet to store the data to be retrieved
+            DataSet ds = new DataSet();
+
+            //Step 4 -  Use the DataAdapter to fill the DataSet with data retrieved
+            da.Fill(ds);
+
+            //Step 5 -  Read data from DataSet to List
+            List<Activity> ActList = new List<Activity>();
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            for (int i = 0; i < rec_cnt; i++)
+            {
+                DataRow row = ds.Tables[0].Rows[i];  // Sql command returns only one record
+
+                string duration = row["Duration"].ToString();
+                double price = Double.Parse(row["Price"].ToString());
+                string details = row["Details"].ToString();
+                string tag = row["Tag"].ToString();
+                string name = row["ActivityName"].ToString();
+                string image = row["Image"].ToString();
+                Activity Act = new Activity(duration, price, details, tag, name, image);
+
+                Act.Actid = Convert.ToInt32(row["ActivityID"]);
+                ActList.Add(Act);
+            }
+            return ActList;
+        }
+        public List<Activity> SelectByTag(string tags)
+        {
+            //Step 1 -  Define a connection to the database by getting
+            //          the connection string from App.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            System.Diagnostics.Debug.WriteLine(tags);
+            //Step 2 -  Create a DataAdapter object to retrieve data from the database table
+            string sqlStmt = "select * from Activity where Tag like '" + tags + "%'";
+            
+           
             SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
 
             //Step 3 -  Create a DataSet to store the data to be retrieved
