@@ -33,6 +33,15 @@ namespace MyDBService
         List<Account> GetAllAccount();
 
         [OperationContract]
+        List<Account> GetAllDeletedAccount();
+
+        [OperationContract]
+        List<Account> GetAllStaffAccount();
+
+        [OperationContract]
+        List<Account> GetAllCustomerAccount();
+
+        [OperationContract]
         List<Promotion> GetAllPromotion();
 
         [OperationContract]
@@ -78,6 +87,9 @@ namespace MyDBService
         int UpdateEmail(string username, string email);
 
         [OperationContract]
+        int UpdateUserTypeAndAccountStatus(string username, string usertype,string accountstatus);
+            
+        [OperationContract]
         int UpdateContact(string username, string contactno);
 
         [OperationContract]
@@ -107,6 +119,7 @@ namespace MyDBService
         [OperationContract]
         int UpdatePromotionStatus(string name, string promotionstatus);
 
+
         [OperationContract]
         int UpdatePromotionStatusAndCode(string name, string code, string promotionstatus);
 
@@ -120,7 +133,10 @@ namespace MyDBService
         List<Post> GetAllPost();
 
         [OperationContract]
-        int CreatePost(string title, string image, string type, string location, string description, string username);
+        List<Post> GetAllPostStaff();
+
+        [OperationContract]
+        int CreatePost(string title, string image, string type, string location, string description, string username, string userReported, string bookmarkedBy);
 
         [OperationContract]
         int UpdatePost(int PostID, string title, string image, string type, string location, string description, Boolean bookmark);
@@ -129,7 +145,34 @@ namespace MyDBService
         Post GetAPost(int postID);
 
         [OperationContract]
-        Post GetPostByUsername(string username);
+        List<Post> GetPostByUsername(string username);
+
+        [OperationContract]
+        int DeletePost(int postID);
+
+        [OperationContract]
+        int UpdateBookmark(int postID, Boolean bookmark);
+
+        [OperationContract]
+        Boolean GetBookmark(int postID);
+
+        [OperationContract]
+        int UpdateReport(int postID, int report);
+
+        [OperationContract]
+        int GetReport(int postID);
+
+        [OperationContract]
+        int UpdateUserReported(int postID, string userReported);
+
+        [OperationContract]
+        string GetUserReported(int postID);
+
+        [OperationContract]
+        int UpdateBookmarkedBy(int postID, string bookmarkedBy);
+
+        [OperationContract]
+        string GetBookmarkedBy(int postID);
 
         //Yongsheng
 
@@ -159,6 +202,8 @@ namespace MyDBService
 
         [OperationContract]
         int DeletePlan(int planid);
+        [OperationContract]
+        int AddToPlan(string planid, string activityname, string date, string booked, string qty, double unitprice, double totalprice, string image);
 
 
     }

@@ -58,6 +58,21 @@ namespace MyDBService
             Account act = new Account();
             return act.SelectAll();
         }
+        public List<Account> GetAllDeletedAccount()
+        {
+            Account act = new Account();
+            return act.SelectAllDeletedAccount();
+        }
+        public List<Account> GetAllStaffAccount()
+        {
+            Account act = new Account();
+            return act.SelectAllStaffAccount();
+        }
+        public List<Account> GetAllCustomerAccount()
+        {
+            Account act = new Account();
+            return act.SelectAllCustomerAccount();
+        }
         public List<Promotion> GetAllPromotion()
         {
             Promotion pro = new Promotion();
@@ -161,6 +176,11 @@ namespace MyDBService
             Account act = new Account();
             return act.UpdateUserType(username, usertype);
         }
+        public int UpdateUserTypeAndAccountStatus(string username, string usertype, string accountstatus)
+        {
+            Account act = new Account();
+            return act.UpdateUserTypeAndAccountStatus(username, usertype, accountstatus);
+        }
 
         public int UpdateResetPasswordCode(string email, string resetpasswordcode)
         {
@@ -236,10 +256,14 @@ namespace MyDBService
             Post post = new Post();
             return post.SelectAll();
         }
-
-        public int CreatePost(string title, string image, string type, string location, string description, string username)
+        public List<Post> GetAllPostStaff()
         {
-            Post post = new Post(title, image, type, location, description, 0, false, username);
+            Post post = new Post();
+            return post.SelectAllStaff();
+        }
+        public int CreatePost(string title, string image, string type, string location, string description, string username, string userReported, string bookmarkedBy)
+        {
+            Post post = new Post(title, image, type, location, description, 0, false, username, userReported, bookmarkedBy);
             return post.Insert();
         }
 
@@ -255,10 +279,55 @@ namespace MyDBService
             return post.GetAPost(postID);
         }
 
-        public Post GetPostByUsername(string username)
+        public List<Post> GetPostByUsername(string username)
         {
             Post post = new Post();
             return post.GetPostByUsername(username);
+        }
+        public int DeletePost(int postID)
+        {
+            Post post = new Post();
+            return post.DeletePost(postID);
+        }
+        public int UpdateBookmark(int postID, Boolean bookmark)
+        {
+            Post post = new Post();
+            return post.UpdateBookmark(postID, bookmark);
+        }
+        public Boolean GetBookmark(int postID)
+        {
+            Post post = new Post();
+            return post.GetBookmark(postID);
+        }
+        public int UpdateReport(int postID, int report)
+        {
+            Post post = new Post();
+            return post.UpdateReport(postID, report);
+        }
+        public int GetReport(int postID)
+        {
+            Post post = new Post();
+            return post.GetReport(postID);
+        }
+        public int UpdateUserReported(int postID, string userReported)
+        {
+            Post post = new Post();
+            return post.UpdateUserReported(postID, userReported);
+        }
+        public string GetUserReported(int postID)
+        {
+            Post post = new Post();
+            return post.GetUserReported(postID);
+        }
+        public int UpdateBookmarkedBy(int postID, string bookmarkedBy)
+        {
+            Post post = new Post();
+            return post.UpdateBookmarkedBy(postID, bookmarkedBy);
+        }
+        public string GetBookmarkedBy(int postID)
+        {
+            Post post = new Post();
+            return post.GetBookmarkedBy(postID);
         }
 
         // Mengxi
@@ -281,6 +350,11 @@ namespace MyDBService
         {
             Plan act = new Plan();
             return act.DeletePlan(planid);
+        }
+        public int AddToPlan(string planid, string activityname, string date, string booked, string qty, double unitprice, double totalprice, string image)
+        {
+            PlanActivity emp = new PlanActivity(planid, activityname, date, booked, qty, unitprice, totalprice, image);
+            return emp.Insert();
         }
     }
 }
