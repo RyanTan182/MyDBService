@@ -256,9 +256,9 @@ namespace MyDBService
             Post post = new Post();
             return post.SelectAllStaff();
         }
-        public int CreatePost(string title, string image, string type, string location, string description, string username)
+        public int CreatePost(string title, string image, string type, string location, string description, string username, string userReported, string bookmarkedBy)
         {
-            Post post = new Post(title, image, type, location, description, 0, false, username);
+            Post post = new Post(title, image, type, location, description, 0, false, username, userReported, bookmarkedBy);
             return post.Insert();
         }
 
@@ -303,6 +303,26 @@ namespace MyDBService
         {
             Post post = new Post();
             return post.GetReport(postID);
+        }
+        public int UpdateUserReported(int postID, string userReported)
+        {
+            Post post = new Post();
+            return post.UpdateUserReported(postID, userReported);
+        }
+        public string GetUserReported(int postID)
+        {
+            Post post = new Post();
+            return post.GetUserReported(postID);
+        }
+        public int UpdateBookmarkedBy(int postID, string bookmarkedBy)
+        {
+            Post post = new Post();
+            return post.UpdateBookmarkedBy(postID, bookmarkedBy);
+        }
+        public string GetBookmarkedBy(int postID)
+        {
+            Post post = new Post();
+            return post.GetBookmarkedBy(postID);
         }
 
         // Mengxi

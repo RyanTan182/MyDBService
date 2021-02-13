@@ -136,7 +136,7 @@ namespace MyDBService
         List<Post> GetAllPostStaff();
 
         [OperationContract]
-        int CreatePost(string title, string image, string type, string location, string description, string username);
+        int CreatePost(string title, string image, string type, string location, string description, string username, string userReported, string bookmarkedBy);
 
         [OperationContract]
         int UpdatePost(int PostID, string title, string image, string type, string location, string description, Boolean bookmark);
@@ -161,6 +161,18 @@ namespace MyDBService
 
         [OperationContract]
         int GetReport(int postID);
+
+        [OperationContract]
+        int UpdateUserReported(int postID, string userReported);
+
+        [OperationContract]
+        string GetUserReported(int postID);
+
+        [OperationContract]
+        int UpdateBookmarkedBy(int postID, string bookmarkedBy);
+
+        [OperationContract]
+        string GetBookmarkedBy(int postID);
 
         //Yongsheng
 
