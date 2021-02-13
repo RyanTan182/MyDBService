@@ -297,10 +297,25 @@ namespace MyDBService
             Plan act = new Plan();
             return act.DeletePlan(planid);
         }
-        public int AddToPlan(string planid, string activityname, string date, string booked, string qty, double unitprice, double totalprice, string image)
+        public int AddToPlan( string activityname, string date, string booked, string qty, double unitprice, double totalprice, string planid, string image, string duration, string desc, string tag)
         {
-            PlanActivity emp = new PlanActivity(planid, activityname, date, booked, qty, unitprice, totalprice, image);
+            PlanActivity emp = new PlanActivity(planid, activityname, date, booked, qty, unitprice, totalprice, image, duration, desc, tag);
             return emp.Insert();
+        }
+        public List<PlanActivity> GetActivitesByPlan(string planid)
+        {
+            PlanActivity act = new PlanActivity();
+            return act.SelectActivityByPlanid(planid);
+        }
+        public int UpdatePlanActivity(int id, string date, string qty, double totalprice)
+        {
+            PlanActivity act = new PlanActivity();
+            return act.UpdatePlanActivity(id, date, qty, totalprice);
+        }
+        public int DeletePlanActivity(int id)
+        {
+            PlanActivity act = new PlanActivity();
+            return act.DeletePlanActivity(id);
         }
     }
 }

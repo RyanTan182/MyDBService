@@ -170,7 +170,13 @@ namespace MyDBService
         [OperationContract]
         int DeletePlan(int planid);
         [OperationContract]
-        int AddToPlan(string planid, string activityname, string date, string booked, string qty, double unitprice, double totalprice, string image);
+        int AddToPlan( string activityname, string date, string booked, string qty, double unitprice, double totalprice, string planid, string image, string duration, string desc, string tag);
+        [OperationContract]
+        List<PlanActivity> GetActivitesByPlan(string planid);
+        [OperationContract]
+        int UpdatePlanActivity(int id, string date, string qty, double totalprice);
+        [OperationContract]
+        int DeletePlanActivity(int id);
 
 
     }

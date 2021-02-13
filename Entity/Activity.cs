@@ -19,7 +19,6 @@ namespace MyDBService.Entity
         public string Details { get; set; }
         public string Tag { get; set; }
         public string ActivityName { get; set; }
-
         public string Image { get; set; }
 
         public Activity(string duration,double price,string details,string tag,string activityname,string image)
