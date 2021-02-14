@@ -202,16 +202,17 @@ namespace MyDBService.Entity
         }
         public List<Activity> SelectByTag(string tags)
         {
+            string query = "SELECT * FROM Activity";
             //Step 1 -  Define a connection to the database by getting
             //          the connection string from App.config
             string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
             System.Diagnostics.Debug.WriteLine(tags);
             //Step 2 -  Create a DataAdapter object to retrieve data from the database table
-            string sqlStmt = "select * from Activity where Tag like '" + tags + "%'";
-            
-           
-            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+
+
+            SqlDataAdapter da = new SqlDataAdapter(query+tags, myConn);
+
 
             //Step 3 -  Create a DataSet to store the data to be retrieved
             DataSet ds = new DataSet();
@@ -254,6 +255,8 @@ namespace MyDBService.Entity
             return result;
 
         }
+        
 
     }
+
 }
