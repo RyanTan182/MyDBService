@@ -73,10 +73,22 @@ namespace MyDBService
             Account act = new Account();
             return act.SelectAllCustomerAccount();
         }
+
+        public List<Account> GetAllAccountBySearch(string word)
+        {
+            Account act = new Account();
+            return act.SelectAllBySearch(word);
+        }
         public List<Promotion> GetAllPromotion()
         {
             Promotion pro = new Promotion();
             return pro.SelectAll();
+        }
+
+        public List<Promotion> GetAllPromotionBySearch(string word)
+        {
+            Promotion pro = new Promotion();
+            return pro.SelectAllBySearch(word);
         }
 
         public List<Promotion> GetAllPromotionsByPromotionStatus(string promotionstatus)
@@ -261,9 +273,9 @@ namespace MyDBService
             Post post = new Post();
             return post.SelectAllStaff();
         }
-        public int CreatePost(string title, string image, string type, string location, string description, string username, string userReported, string bookmarkedBy)
+        public int CreatePost(string title, string image, string type, string location, string description, string username, string userReported, string bookmarkedBy, double latitude, double longtitude)
         {
-            Post post = new Post(title, image, type, location, description, 0, false, username, userReported, bookmarkedBy);
+            Post post = new Post(title, image, type, location, description, 0, false, username, userReported, bookmarkedBy, latitude, longtitude);
             return post.Insert();
         }
 
@@ -328,6 +340,11 @@ namespace MyDBService
         {
             Post post = new Post();
             return post.GetBookmarkedBy(postID);
+        }
+        public List<Post> GetAllBookmark(string username)
+        {
+            Post post = new Post();
+            return post.SelectAllBookmark(username);
         }
 
         // Mengxi
