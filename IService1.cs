@@ -42,6 +42,9 @@ namespace MyDBService
         List<Account> GetAllCustomerAccount();
 
         [OperationContract]
+        List<Account> GetAllAccountBySearch(string word);
+
+        [OperationContract]
         List<Promotion> GetAllPromotion();
 
         [OperationContract]
@@ -52,6 +55,9 @@ namespace MyDBService
 
         [OperationContract]
         List<Promotion> GetAllExpiredPromotion();
+
+        [OperationContract]
+        List<Promotion> GetAllPromotionBySearch(string word);
 
         [OperationContract]
         List<Activity> GetAllActivity();
@@ -136,7 +142,7 @@ namespace MyDBService
         List<Post> GetAllPostStaff();
 
         [OperationContract]
-        int CreatePost(string title, string image, string type, string location, string description, string username, string userReported, string bookmarkedBy);
+        int CreatePost(string title, string image, string type, string location, string description, string username, string userReported, string bookmarkedBy, double latitude, double longtitude);
 
         [OperationContract]
         int UpdatePost(int PostID, string title, string image, string type, string location, string description, Boolean bookmark);
@@ -173,6 +179,9 @@ namespace MyDBService
 
         [OperationContract]
         string GetBookmarkedBy(int postID);
+
+        [OperationContract]
+        List<Post> GetAllBookmark(string username);
 
         //Yongsheng
 
