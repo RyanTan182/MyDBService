@@ -22,13 +22,15 @@ namespace MyDBService.Entity
         public string Username { get; set; }
         public string UserReported { get; set; }
         public string BookmarkedBy { get; set; }
+        public double Latitude { get; set; }
+        public double Longtitude { get; set; }
 
         public Post()
         {
 
         }
 
-        public Post(string title, string image, string type, string location, string description, int report, Boolean bookmark, string username, string userReported, string bookmarkedBy)
+        public Post(string title, string image, string type, string location, string description, int report, Boolean bookmark, string username, string userReported, string bookmarkedBy, double latitude, double longtitude)
         {
             Title = title;
             Image = image;
@@ -40,6 +42,8 @@ namespace MyDBService.Entity
             Username = username;
             UserReported = userReported;
             BookmarkedBy = bookmarkedBy;
+            Latitude = latitude;
+            Longtitude = longtitude;
         }
 
         public int Insert()
@@ -47,8 +51,8 @@ namespace MyDBService.Entity
             string DBConnect = ConfigurationManager.ConnectionStrings["teenfun"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
 
-            string sqlStmt = "INSERT INTO Post (Title, Image, Type, Location, Description, Report, Bookmark, Username, UserReported, BookmarkedBy) " +
-                "VALUES (@paraTitle, @paraImage, @paraType, @paraLocation, @paraDescription, @paraReport, @paraBookmark, @paraUsername, @paraUserReported, @paraBookmarkedBy)";
+            string sqlStmt = "INSERT INTO Post (Title, Image, Type, Location, Description, Report, Bookmark, Username, UserReported, BookmarkedBy, Latitude, Longtitude) " +
+                "VALUES (@paraTitle, @paraImage, @paraType, @paraLocation, @paraDescription, @paraReport, @paraBookmark, @paraUsername, @paraUserReported, @paraBookmarkedBy, @paraLatitude, @paraLongtitude)";
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             sqlCmd.Parameters.AddWithValue("@paraTitle", Title);
@@ -61,6 +65,8 @@ namespace MyDBService.Entity
             sqlCmd.Parameters.AddWithValue("@paraUsername", Username);
             sqlCmd.Parameters.AddWithValue("@paraUserReported", UserReported);
             sqlCmd.Parameters.AddWithValue("@paraBookmarkedBy", BookmarkedBy);
+            sqlCmd.Parameters.AddWithValue("@paraLatitude", Latitude);
+            sqlCmd.Parameters.AddWithValue("@paraLongtitude", Longtitude);
 
             myConn.Open();
             int result = sqlCmd.ExecuteNonQuery();
@@ -98,10 +104,14 @@ namespace MyDBService.Entity
                 string username = row["Username"].ToString();
                 string userReported = row["UserReported"].ToString();
                 string bookmarkedBy = row["BookmarkedBy"].ToString();
+                string str_latitude = row["Latitude"].ToString();
+                double latitude = Convert.ToDouble(str_latitude);
+                string str_longtitude = row["Longtitude"].ToString();
+                double longtitude = Convert.ToDouble(str_longtitude);
 
                 if (report < 5)
                 {
-                    Post obj = new Post(title, image, type, location, description, report, bookmark, username, userReported, bookmarkedBy);
+                    Post obj = new Post(title, image, type, location, description, report, bookmark, username, userReported, bookmarkedBy, latitude, longtitude);
                     obj.PostID = Convert.ToInt32(row["PostID"]);
                     postList.Add(obj);
                 }
@@ -147,8 +157,12 @@ namespace MyDBService.Entity
                 string username = row["Username"].ToString();
                 string userReported = row["UserReported"].ToString();
                 string bookmarkedBy = row["BookmarkedBy"].ToString();
+                string str_latitude = row["Latitude"].ToString();
+                double latitude = Convert.ToDouble(str_latitude);
+                string str_longtitude = row["Longtitude"].ToString();
+                double longtitude = Convert.ToDouble(str_longtitude);
 
-                Post obj = new Post(title, image, type, location, description, report, bookmark, username, userReported, bookmarkedBy);
+                Post obj = new Post(title, image, type, location, description, report, bookmark, username, userReported, bookmarkedBy, latitude, longtitude);
                 obj.PostID = Convert.ToInt32(row["PostID"]);
                 postList.Add(obj);
             }
@@ -210,8 +224,12 @@ namespace MyDBService.Entity
                 string username = row["Username"].ToString();
                 string userReported = row["UserReported"].ToString();
                 string bookmarkedBy = row["BookmarkedBy"].ToString();
+                string str_latitude = row["Latitude"].ToString();
+                double latitude = Convert.ToDouble(str_latitude);
+                string str_longtitude = row["Longtitude"].ToString();
+                double longtitude = Convert.ToDouble(str_longtitude);
 
-                post = new Post(title, image, type, location, description, report, bookmark, username, userReported, bookmarkedBy);
+                post = new Post(title, image, type, location, description, report, bookmark, username, userReported, bookmarkedBy, latitude, longtitude);
             }
             return post;
         }
@@ -245,7 +263,11 @@ namespace MyDBService.Entity
                 Boolean bookmark = Convert.ToBoolean(row["Bookmark"]);
                 string userReported = row["UserReported"].ToString();
                 string bookmarkedBy = row["BookmarkedBy"].ToString();
-                Post postItem = new Post(title, image, type, location, description, report, bookmark, username, userReported, bookmarkedBy);
+                string str_latitude = row["Latitude"].ToString();
+                double latitude = Convert.ToDouble(str_latitude);
+                string str_longtitude = row["Longtitude"].ToString();
+                double longtitude = Convert.ToDouble(str_longtitude);
+                Post postItem = new Post(title, image, type, location, description, report, bookmark, username, userReported, bookmarkedBy, latitude, longtitude);
 
                 postItem.PostID = Convert.ToInt32(row["PostID"]);
                 postList.Add(postItem);
@@ -512,8 +534,12 @@ namespace MyDBService.Entity
                 Boolean bookmark = Convert.ToBoolean(row["Bookmark"]);
                 string userReported = row["UserReported"].ToString();
                 string bookmarkedBy = row["BookmarkedBy"].ToString();
+                string str_latitude = row["Latitude"].ToString();
+                double latitude = Convert.ToDouble(str_latitude);
+                string str_longtitude = row["Longtitude"].ToString();
+                double longtitude = Convert.ToDouble(str_longtitude);
 
-                Post obj = new Post(title, image, type, location, description, report, bookmark, username, userReported, bookmarkedBy);
+                Post obj = new Post(title, image, type, location, description, report, bookmark, username, userReported, bookmarkedBy, latitude, longtitude);
                 obj.PostID = Convert.ToInt32(row["PostID"]);
                 postList.Add(obj);
             }

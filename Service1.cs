@@ -261,9 +261,9 @@ namespace MyDBService
             Post post = new Post();
             return post.SelectAllStaff();
         }
-        public int CreatePost(string title, string image, string type, string location, string description, string username, string userReported, string bookmarkedBy)
+        public int CreatePost(string title, string image, string type, string location, string description, string username, string userReported, string bookmarkedBy, double latitude, double longtitude)
         {
-            Post post = new Post(title, image, type, location, description, 0, false, username, userReported, bookmarkedBy);
+            Post post = new Post(title, image, type, location, description, 0, false, username, userReported, bookmarkedBy, latitude, longtitude);
             return post.Insert();
         }
 
