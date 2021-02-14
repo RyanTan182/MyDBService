@@ -489,7 +489,7 @@ namespace MyDBService.Entity
             SqlConnection postConn = new SqlConnection(DBConnect);
 
 
-            string sqlStmt = "Select * from Post where CONTAINS(BookmarkedBy, '"+ username +"')";
+            string sqlStmt = "Select * from Post";
             SqlDataAdapter da = new SqlDataAdapter(sqlStmt, postConn);
 
             DataSet ds = new DataSet();
@@ -497,6 +497,7 @@ namespace MyDBService.Entity
             da.Fill(ds);
 
             List<Post> postList = new List<Post>();
+            List<Post> bookmarkedList = new List<Post>();
             int rec_cnt = ds.Tables[0].Rows.Count;
             for (int i = 0; i < rec_cnt; i++)
             {
@@ -516,6 +517,19 @@ namespace MyDBService.Entity
                 obj.PostID = Convert.ToInt32(row["PostID"]);
                 postList.Add(obj);
             }
+
+            foreach (Post item in postList.ToList())
+            {
+                if (item.BookmarkedBy.Contains(username))
+                {
+                    
+                }
+                else
+                {
+                    postList.Remove(item);
+                }
+            }
+
             return postList;
         }
 
