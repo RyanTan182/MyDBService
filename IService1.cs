@@ -42,6 +42,9 @@ namespace MyDBService
         List<Account> GetAllCustomerAccount();
 
         [OperationContract]
+        List<Account> GetAllAccountBySearch(string word);
+
+        [OperationContract]
         List<Promotion> GetAllPromotion();
 
         [OperationContract]
@@ -52,6 +55,9 @@ namespace MyDBService
 
         [OperationContract]
         List<Promotion> GetAllExpiredPromotion();
+
+        [OperationContract]
+        List<Promotion> GetAllPromotionBySearch(string word);
 
         [OperationContract]
         List<Activity> GetAllActivity();

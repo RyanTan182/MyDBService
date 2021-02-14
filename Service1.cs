@@ -73,10 +73,22 @@ namespace MyDBService
             Account act = new Account();
             return act.SelectAllCustomerAccount();
         }
+
+        public List<Account> GetAllAccountBySearch(string word)
+        {
+            Account act = new Account();
+            return act.SelectAllBySearch(word);
+        }
         public List<Promotion> GetAllPromotion()
         {
             Promotion pro = new Promotion();
             return pro.SelectAll();
+        }
+
+        public List<Promotion> GetAllPromotionBySearch(string word)
+        {
+            Promotion pro = new Promotion();
+            return pro.SelectAllBySearch(word);
         }
 
         public List<Promotion> GetAllPromotionsByPromotionStatus(string promotionstatus)
