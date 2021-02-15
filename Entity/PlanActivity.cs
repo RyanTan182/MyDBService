@@ -83,7 +83,7 @@ namespace MyDBService.Entity
             SqlConnection myConn = new SqlConnection(DBConnect);
 
             //Step 2 -  Create a DataAdapter to retrieve data from the database table
-            string sqlStmt = "Select * from PlanActivity where Planid=@paraPlanid";
+            string sqlStmt = "Select * from PlanActivity where Planid=@paraPlanid ORDER BY convert(nvarchar, Date, 103) ASC ";
             SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
             da.SelectCommand.Parameters.AddWithValue("@paraPlanid", planid);
 

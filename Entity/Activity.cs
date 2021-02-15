@@ -169,7 +169,7 @@ namespace MyDBService.Entity
             SqlConnection myConn = new SqlConnection(DBConnect);
 
             //Step 2 -  Create a DataAdapter object to retrieve data from the database table
-            string sqlStmt = "select * from Activity where ActivityName like '%" + word + "%'";
+            string sqlStmt = "select * from Activity where ActivityName like '%" + word + "%' or Duration like '%" + word + "%' OR Tag like '%" + word + "%'";
             
 
             SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
